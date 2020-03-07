@@ -1,0 +1,84 @@
+.signup-pages {
+    background: #e7e9eb;
+    height: 100%;
+    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.signup-box {
+    width: 400px;
+    margin: 5% auto;
+}
+
+
+
+.signup-logo {
+    font-size: 35px;
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: 200;
+}
+
+.signup-logo a {
+    color: #444;
+}
+
+b {
+    font-weight: 700;
+}
+
+.signup-box-body {
+    background: #fff;
+    padding: 20px;
+    border-top: 0;
+    color: #666;
+}
+
+.signup-box-body .box-msg {
+    margin: 0;
+    text-align: center;
+    padding: 0 20px 20px 20px;
+}
+
+.box {
+    position: relative;
+    border-radius: 3px;
+    background: #ffffff;
+    border-top: 3px solid #d2d6de;
+    margin-bottom: 20px;
+    width: 100%;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+
+}
+
+.box-header {
+    color: #444;
+    display: block;
+    padding: 10px;
+    position: relative;
+}
+
+.box-body {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    height: 130px;
+    overflow: auto;
+    padding: 0 18px;
+    font-size: 12px;
+}
+
+.signup-errors {
+	color : red;
+	margin : 10px;
+}
+
+.btn-style {
+    width: 90px;
+    border-radius: 0px;
+    background: #367fa9;
+    color: #ffff;
+}

@@ -1,0 +1,41 @@
+.main-pages {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.header, .footer {
+	padding-right: 15px;
+	padding-left: 15px;
+}
+
+/* Custom page header */
+.header {
+	border-bottom: 1px solid #e5e5e5;
+}
+
+.header h3 {
+	padding-bottom: 19px;
+	margin-top: 0;
+	margin-bottom: 0;
+	line-height: 40px;
+}
+
+.footer {
+	padding-top: 19px;
+	color: #777;
+	border-top: 1px solid #e5e5e5;
+}
+
+@media screen and (min-width: 768px) {
+	.marketing {
+		padding-right: 0;
+		padding-left: 0;
+	}
+	.jumbotron {
+		border-bottom: 0;
+	}
+}
+
+body {
+	padding-top: 110px;
+}

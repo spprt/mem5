@@ -1,4 +1,22 @@
 /**************************
+ * 회원테이블 MEMO_USER
+	회원ID	MEMOID	PK	NOT NULL	
+	이메일	EMAIL	NOT NULL		
+	닉네임	NAME	NOT NULL		
+	가입일	REG_DATE		NOT NULL	SYSDATE
+	패스워드	PASSWORD			
+ ***************************/
+CREATE TABLE MEMO_USER(
+	USERID int(11) unsigned NOT NULL AUTO_INCREMENT  COMMENT '회원ID',
+    EMAIL varchar(50) NOT NULL  COMMENT '이메일',
+    NAME varchar(10) NOT NULL COMMENT '닉네임',
+    PASSWORD varchar(20)  COMMENT '패스워드',
+    REG_DATE datetime default now() COMMENT '가입일',
+    PRIMARY KEY(USERID)
+);
+
+
+/**************************
  * 메모테이블 MEMO
 	메모ID	MEMOID	PK	NOT NULL	
 	제목	TITLE			
@@ -10,10 +28,6 @@
 	수정자	MOD_USERID			
 	메모타입	TYPE			
  ***************************/
-
-
-
--- USER 우선 생성해야함
 CREATE TABLE MEMO(
 	MEMOID int(11) unsigned NOT NULL AUTO_INCREMENT  COMMENT '메모ID',
     TITLE varchar(255)  COMMENT '제목',
@@ -25,7 +39,7 @@ CREATE TABLE MEMO(
    	MOD_USERID int(11) COMMENT '수정자ID',
    	TYPE TINYINT(2) COMMENT '메모타입',
 	PRIMARY KEY(MEMOID),
-	FOREIGN KEY (REG_USERID) REFERENCES USER (USERID)
+	FOREIGN KEY (REG_USERID) REFERENCES MEMO_USER (USERID)
 );
 
 /**************************
