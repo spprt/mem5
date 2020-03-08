@@ -9,8 +9,12 @@ public class LoginCommand {
 	@NotEmpty(message = "이메일을 필수로 입력해 주세요.")
 	private String email;
 
-	@NotEmpty(message = "패스워드를 필수로 입력해 주세요.")
-	private String password;
+	private String name;
+
+	private String oauthId;
+
+	private String imageUrl;
+
 	private boolean rememberId;
 
 	public String getEmail() {
@@ -21,12 +25,28 @@ public class LoginCommand {
 		this.email = email;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getName() {
+		return name;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getOauthId() {
+		return oauthId;
+	}
+
+	public void setOauthId(String oauthId) {
+		this.oauthId = oauthId;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 	public boolean isRememberId() {

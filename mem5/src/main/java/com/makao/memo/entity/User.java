@@ -15,7 +15,19 @@ import javax.persistence.Table;
 public class User implements Serializable {
 	private static final long serialVersionUID = 7192831414339863019L;
 
+	public User() {
+	}
+
+	public User(String email, String name, String oauthId, String imageUrl) {
+		super();
+		this.email = email;
+		this.name = name;
+		this.oauthId = oauthId;
+		this.imageUrl = imageUrl;
+	}
+
 	@Id
+	@Column(name = "userid")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
@@ -25,17 +37,14 @@ public class User implements Serializable {
 	@Column(name = "name")
 	private String name;
 
-	@Column(name = "password")
-	private String password;
-
-	@Column(name = "regdate")
+	@Column(name = "reg_date")
 	private Date regdate;
 
-	private String checkPassword;
+	@Column(name = "oauthid")
+	private String oauthId;
 
-	public boolean isPwEqualToCheckPw() {
-		return password.equals(checkPassword);
-	}
+	@Column(name = "image_url")
+	private String imageUrl;
 
 	public Long getId() {
 		return id;
@@ -61,14 +70,6 @@ public class User implements Serializable {
 		this.name = name;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
 	public Date getRegdate() {
 		return regdate;
 	}
@@ -77,18 +78,26 @@ public class User implements Serializable {
 		this.regdate = regdate;
 	}
 
-	public String getCheckPassword() {
-		return checkPassword;
+	public String getOauthId() {
+		return oauthId;
 	}
 
-	public void setCheckPassword(String checkPassword) {
-		this.checkPassword = checkPassword;
+	public void setOauthId(String oauthId) {
+		this.oauthId = oauthId;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", email=" + email + ", name=" + name + ", password=" + password
-				+ ", regdate=" + regdate + ", checkPassword=" + checkPassword + "]";
+		return "User [id=" + id + ", email=" + email + ", name=" + name + ", regdate=" + regdate + ", oauthId="
+				+ oauthId + ", imageUrl=" + imageUrl + "]";
 	}
 
 }

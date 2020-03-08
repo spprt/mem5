@@ -60,9 +60,10 @@ public class LoginController {
 			}
 			response.addCookie(rememberCookie);
 		} catch (IdPasswordNotMatchingException e) {
-			bindingResult.rejectValue("password", "notMatch", "���̵�� ��й�ȣ�� ���� �ʽ��ϴ�.");
-			ModelAndView mv = new ModelAndView("user/loginForm");
-			return mv;
+//			bindingResult.rejectValue("password", "notMatch", "���̵�� ��й�ȣ�� ���� �ʽ��ϴ�.");
+//			ModelAndView mv = new ModelAndView("user/loginForm");
+//			return mv;
+			e.getStackTrace();
 		}
 
 		ModelAndView mv = new ModelAndView("redirect:/");

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.makao.memo.entity.User;
 import com.makao.memo.exception.AlreadyExistingEmailException;
-import com.makao.memo.exception.IdPasswordNotMatchingException;
 import com.makao.memo.persistance.UserDAO;
 import com.makao.memo.util.AuthInfo;
 import com.makao.memo.util.LoginCommand;
@@ -22,8 +21,9 @@ public class UserServiceImpl implements UserService {
 	private UserDAO userDAO;
 
 	@Override
-	@Transactional	
+	@Transactional
 	public void addUser(User user) {
+		System.out.println(user);
 		User exist = getUser(user.getEmail());
 		if (null != exist) {
 			throw new AlreadyExistingEmailException();
@@ -63,10 +63,12 @@ public class UserServiceImpl implements UserService {
 	public AuthInfo loginAuth(LoginCommand loginCommand) {
 		User user = getUser(loginCommand.getEmail());
 		if (user == null) {
-			throw new IdPasswordNotMatchingException();
-		}
-		if (!user.getPassword().equals(loginCommand.getPassword())) {
-			throw new IdPasswordNotMatchingException();
+//			throw new IdPasswordNotMatchingException();
+			user = new User(loginCommand.getEmail(), loginCommand.getName(), loginCommand.getOauthId(),
+					loginCommand.getImageUrl());
+			addUser(user);
+		} else {
+//			updateUser(user);
 		}
 
 		return new AuthInfo(user.getId(), user.getEmail(), user.getName());
