@@ -1,0 +1,15 @@
+.list-group-item.active {
+    background-color: #007bff!important;
+}
+
+#sidebar-wrapper {
+  min-height: 0;
+}
+
+#category-wrapper {
+  min-height: 100vh;
+}
+
+#memolist-wrapper {
+  min-height: 100vh;
+}

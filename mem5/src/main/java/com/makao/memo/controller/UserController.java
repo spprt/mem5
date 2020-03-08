@@ -44,6 +44,11 @@ public class UserController {
 		mv.addObject("user", new User());
 		return mv;
 	}
+	
+	@RequestMapping(value = "/sample", method = RequestMethod.GET)
+	public ModelAndView test(ModelAndView model) {
+		return new ModelAndView("sample");
+	}
 
 	@RequestMapping(value = "/mypage", method = RequestMethod.GET)
 	public ModelAndView myPage(ModelAndView model) {
