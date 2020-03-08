@@ -5,6 +5,11 @@
 <head>
 <%@ include file="/WEB-INF/views/includes/00_head.jsp"%>
 </head>
+<script type="text/javascript">
+document.addEventListener("DOMContentLoaded", function(){
+	
+});
+</script>
 <body>
 	<%@ include file="/WEB-INF/views/includes/03_header.jsp"%>
 	<div class="container">
@@ -20,10 +25,6 @@
 				<tr>
 					<td>[${category.id}]</td>
 					<td>
-						<c:choose>
-							<c:when test="${empty category.parentId}"></c:when>
-							<c:otherwise>&nbsp;&nbsp;&nbsp;</c:otherwise>
-						</c:choose>
 						<a href="${pageContext.request.contextPath}/category/edit?id=${category.id}">${category.ctgrName}</a>
 					</td>
 					<td><a href="${pageContext.request.contextPath}/category/del?id=${category.id}">Del</a></td>

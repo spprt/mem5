@@ -29,8 +29,7 @@ public class CategoryController
 
 		if (null != authInfo)
 		{
-			List<Category> categoryList = service.getAllCategory(authInfo.getId());
-
+			List<Category> categoryList = service.getRootCategory(authInfo.getId());
 			model.addAttribute("categoryList", categoryList);
 		}
 
@@ -56,8 +55,9 @@ public class CategoryController
 		if (null != authInfo)
 		{
 			ctgr.setUserId(authInfo.getId());
+			ctgr.setIdx(service.getMaxCount(ctgr.getParentId(), authInfo.getId()));
+			service.addCategory(ctgr);
 		}
-		service.addCategory(ctgr);
 		return "redirect:/category/myList";
 	}
 
@@ -99,5 +99,13 @@ public class CategoryController
 		}
 		mv.setViewName("redirect:/category/myList");
 		return mv;
+	}
+
+	@RequestMapping(value="/category/childrenList")
+	public List<Category> getChildrenList(Long parentId) throws Exception
+	{
+		List<Category> ctgr = service.getChildrenCategory(parentId);
+		
+		return ctgr;
 	}
 }

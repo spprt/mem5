@@ -48,4 +48,22 @@ public class CategoryServiceImpl implements CategoryService
 		return categoryDAO.getAllCategory(userId);
 	}
 
+	@Override
+	public List<Category> getChildrenCategory(Long parentId)
+	{
+		return categoryDAO.getChildrenCategory(parentId);
+	}
+
+	@Override
+	public List<Category> getRootCategory(Long userId)
+	{
+		return categoryDAO.getRootCategory(userId);
+	}
+
+	@Override
+	public int getMaxCount(Long parentId, Long userId)
+	{
+		return categoryDAO.getMaxCount(parentId, userId);
+	}
+
 }

@@ -6,6 +6,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -72,6 +73,88 @@ public class CategoryDAOImpl implements CategoryDAO
 	public void updateCategory(Category ctgr)
 	{
 		getSession().update(ctgr);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Category> getChildrenCategory(Long parentId)
+	{
+		Session session = this.sessionFactory.openSession();
+		try
+		{
+			Criteria criteria = session.createCriteria(Category.class);
+			criteria.add(Restrictions.eq("parentId", parentId));
+			criteria.addOrder(Order.asc("idx"));
+			return criteria.list();
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if (session != null)
+				session.close();
+		}
+
+		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Category> getRootCategory(Long userId)
+	{
+		Session session = this.sessionFactory.openSession();
+		try
+		{
+			Criteria criteria = session.createCriteria(Category.class);
+			criteria.add(Restrictions.eq("userId", userId));
+			criteria.add(Restrictions.isNull("parentId"));
+			criteria.addOrder(Order.asc("idx"));
+			return criteria.list();
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if (session != null)
+				session.close();
+		}
+
+		return null;
+	}
+
+	@Override
+	public int getMaxCount(Long parentId, Long userId)
+	{
+		Session session = this.sessionFactory.openSession();
+		try
+		{
+			Criteria criteria = session.createCriteria(Category.class);
+			criteria.add(Restrictions.eq("userId", userId));
+			if (null == parentId)
+			{
+				criteria.add(Restrictions.isNull("parentId"));
+			}
+			else
+			{
+				criteria.add(Restrictions.eq("parentId", parentId));
+			}
+			criteria.setProjection(Projections.rowCount());
+			return ((Long) criteria.uniqueResult()).intValue();
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if (session != null)
+				session.close();
+		}
+		return 0;
 	}
 
 }

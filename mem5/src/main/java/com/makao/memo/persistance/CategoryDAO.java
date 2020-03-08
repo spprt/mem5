@@ -15,4 +15,10 @@ public interface CategoryDAO
 	public Category getCategory(Long id);
 
 	public List<Category> getAllCategory(Long userId);
+	
+	public List<Category> getChildrenCategory(Long parentId);
+	
+	public List<Category> getRootCategory(Long userId);
+	
+	public int getMaxCount(Long parentId, Long userId);
 }

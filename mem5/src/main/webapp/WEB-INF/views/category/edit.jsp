@@ -12,6 +12,7 @@
 			<input type="hidden" name="id" value="${category.id}" readonly="readonly"/>
 			<input type="hidden" name="userId" value="${category.userId}" readonly="readonly"/>
 			<input type="hidden" name="parentId" value="${category.parentId}" readonly="readonly"/>
+			<input type="hidden" name="idx" value="${category.idx}" readonly="readonly"/>
 			<label for="ctgrName">분류명</label><input type="text" id="ctgrName" name="ctgrName" value="${category.ctgrName}" />
 			<button type="submit">수정</button>
 		</form>
