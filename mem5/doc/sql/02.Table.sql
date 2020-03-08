@@ -15,6 +15,11 @@ CREATE TABLE MEMO_USER(
     PRIMARY KEY(USERID)
 );
 
+ALTER TABLE `makao`.`MEMO_USER` 
+DROP COLUMN `PASSWORD`,
+ADD COLUMN `OAUTHID` INT(20) NULL AFTER `REG_DATE`,
+ADD COLUMN `IMAGE_URL` VARCHAR(200) NULL AFTER `OAUTHID`;
+
 
 /**************************
  * 메모테이블 MEMO
@@ -35,8 +40,8 @@ CREATE TABLE MEMO(
     REG_DATE datetime default now() COMMENT '작성일',
     MOD_DATE datetime COMMENT '수정일',
     ISDEL tinyint(1) DEFAULT '0' COMMENT '삭제여부',
-    REG_USERID int(11) NOT NULL COMMENT '작성자ID',
-   	MOD_USERID int(11) COMMENT '수정자ID',
+    REG_USERID int(11) unsigned NOT NULL COMMENT '작성자ID',
+   	MOD_USERID int(11) unsigned COMMENT '수정자ID',
    	TYPE TINYINT(2) COMMENT '메모타입',
 	PRIMARY KEY(MEMOID),
 	FOREIGN KEY (REG_USERID) REFERENCES MEMO_USER (USERID)
@@ -54,16 +59,16 @@ CREATE TABLE MEMO(
 	분류3	CTGR3		
  ***************************/
 CREATE TABLE MEMO_SHARE(
-	MEMOID int(11) NOT NULL  COMMENT '메모ID',
-    USERID int(11) NOT NULL COMMENT '사용자ID',
+	MEMOID int(11) unsigned NOT NULL  COMMENT '메모ID',
+    USERID int(11) unsigned NOT NULL COMMENT '사용자ID',
    	NAME varchar(100) COMMENT '사용자명',
    	ISREG TINYINT(1) COMMENT '작성자여부',
-    CTGRID int(11) COMMENT '분류ID',
+    CTGRID int(11) unsigned COMMENT '분류ID',
     CTGR1 int(11)	COMMENT '분류1',
     CTGR2 int(11)	COMMENT '분류2',
     CTGR3 int(11)	COMMENT '분류3',
 	FOREIGN KEY (MEMOID) REFERENCES MEMO (MEMOID),
-	FOREIGN KEY (USERID) REFERENCES USER (USERID)
+	FOREIGN KEY (USERID) REFERENCES MEMO_USER (USERID)
 );
 
 /**************************
@@ -78,10 +83,12 @@ CREATE TABLE MEMO_SHARE(
 CREATE TABLE CATEGORY(
     CTGRID int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '분류ID',
    	PARENTID int(11)	COMMENT '부모분류ID',
-    CTGR1 int(11)	COMMENT '분류1',
-    CTGR2 int(11)	COMMENT '분류2',
-    CTGR3 int(11)	COMMENT '분류3',
-    USERID int(11) NOT NULL COMMENT '사용자ID',
+   	CTGR_NAME varchar(255)	COMMENT '분류명',
+    CTGR1 int(11) unsigned	COMMENT '분류1',
+    CTGR2 int(11) unsigned	COMMENT '분류2',
+    CTGR3 int(11) unsigned	COMMENT '분류3',
+    USERID int(11) unsigned NOT NULL COMMENT '사용자ID',
+    IDX		int	default 0 comment '순서',
 	PRIMARY KEY(CTGRID),
-	FOREIGN KEY (USERID) REFERENCES USER (USERID)
+	FOREIGN KEY (USERID) REFERENCES MEMO_USER (USERID)
 );
