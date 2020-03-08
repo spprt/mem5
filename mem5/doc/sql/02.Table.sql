@@ -83,7 +83,7 @@ CREATE TABLE MEMO_SHARE(
 CREATE TABLE CATEGORY(
     CTGRID int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '분류ID',
    	PARENTID int(11)	COMMENT '부모분류ID',
-   	CTGR_NAME varchar(100)	COMMENT '분류명',
+   	CTGR_NAME varchar(255)	COMMENT '분류명',
     CTGR1 int(11) unsigned	COMMENT '분류1',
     CTGR2 int(11) unsigned	COMMENT '분류2',
     CTGR3 int(11) unsigned	COMMENT '분류3',
