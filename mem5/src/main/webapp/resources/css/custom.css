@@ -4,12 +4,39 @@
 
 #sidebar-wrapper {
   min-height: 0;
+  display: inherit;
+  margin-left: -30rem;
 }
 
 #category-wrapper {
   min-height: 100vh;
+  z-index: 99;
 }
 
 #memolist-wrapper {
   min-height: 100vh;
+}
+
+@media (min-width: 768px) {
+  #sidebar-wrapper {
+    margin-left: 0;
+  }
+  #wrapper.toggled #sidebar-wrapper {
+    margin-left: -15rem;
+  }
+  #wrapper.sub.toggled #sidebar-wrapper {
+    margin-left: -30rem;
+  }
+}
+
+#memolist-wrapper {
+  margin-left: -15rem;
+  -webkit-transition: margin .25s ease-out;
+  -moz-transition: margin .25s ease-out;
+  -o-transition: margin .25s ease-out;
+  transition: margin .25s ease-out;
+}
+
+#wrapper.sub #memolist-wrapper {
+  margin-left: 0rem;
 }
