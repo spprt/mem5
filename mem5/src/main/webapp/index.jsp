@@ -11,9 +11,19 @@ $(function(){
 	    e.preventDefault();
 	    $("#wrapper").toggleClass("toggled");
 	});
-	$('#category-wrapper').click(function(e) {
+	$('#category-wrapper .list-group').click(function(e) {
 // 		$('#wrapper').addClass('sub');
 		$("#wrapper").toggleClass("sub");
+	});
+	
+	var myCtgrDiv = $('#myCtgr');
+	$.ajax({
+		type: "get",
+		url: "${pageContext.request.contextPath}/category/myList",
+		success : function(result) {
+			myCtgrDiv.empty();
+			$(result).appendTo(myCtgrDiv);
+		}
 	});
 });
 </script>
@@ -41,5 +51,37 @@ $(function(){
     <!-- /#page-content-wrapper -->
   </div>
   <!-- /#wrapper -->
+<!-- Category Add Modal -->
+<div class="modal fade" id="ctgr-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">×</span><span class="sr-only">Close</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					<i class="fa fa-share-alt"></i>
+				</h4>
+			</div>
+			<div class="modal-body">
+				<p>분류를 추가해주세요.</p>
+				<form action="${pageContext.request.contextPath}/category/saveAdd" method="post">
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+						<input type="hidden" name="parentId" value="${parentId}" readonly="readonly"/>
+						<input id="ctgrName" name="ctgrName" type="text" class="form-control" placeholder="분류명">
+					</div>
+					<br />
+					<button type="submit" value="sub" name="sub" class="btn btn-primary">
+						<i class="fa fa-share"></i> 추가
+					</button>
+				</form>
+			</div>
+<!-- 			<div class="modal-footer"> -->
+<!-- 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+<!-- 			</div> -->
+		</div>
+	</div>
+</div>
 </body>
 </html>
