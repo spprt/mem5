@@ -55,7 +55,16 @@ public class Memo implements Serializable
 
 	@Column(name = "type")
 	private int type;
-
+	
+	/**
+	 * 메모타입: 일반노트(1)
+	 */
+	public static final int TYPE_NOTE = 1;
+	/**
+	 * 메모타입: TO-DO리스트(2)
+	 */
+	public static final int TYPE_TODO = 2;
+	
 	public Long getId()
 	{
 		return id;

@@ -26,7 +26,15 @@ $(function(){
 			});
 			$('#category-wrapper .list-group-item').click(function(e) {
 				e.stopPropagation();
-				alert('gggg');
+
+				<%--카테고리아이디--%>
+				var categoryId = $(this).parent().data('cid');
+				console.log(categoryId);
+				getMemoList(categoryId).done(function(result){
+					console.log('reuslt', result)
+				}).fail(function(result){
+					console.error(result);
+				});
 				$("#wrapper").toggleClass("sub");
 			});
 		}
@@ -35,6 +43,14 @@ $(function(){
 function settingCtgr(id, name) {
 	console.log(id);
 	console.log(name);
+}
+function getMemoList(ctgrId) {
+	return $.ajax({
+		type:'get',
+		dataType : 'json',
+		contentType:"application/json",
+		url: '${pageContext.request.contextPath}/memo/allMyList'
+	});
 }
 </script>
 <body>
