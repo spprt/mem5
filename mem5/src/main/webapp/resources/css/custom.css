@@ -46,3 +46,10 @@
   position: absolute;
 }
 
+#sidebar-wrapper .list-group .settingCtgr {
+  position: absolute;
+  right: 20px;
+  top: 13px;
+  z-index: 9;
+  cursor: pointer;
+}

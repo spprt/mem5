@@ -59,22 +59,17 @@ $(function(){
 				<button type="button" class="close" data-dismiss="modal">
 					<span aria-hidden="true">×</span><span class="sr-only">Close</span>
 				</button>
-				<h4 class="modal-title" id="myModalLabel">
-					<i class="fa fa-share-alt"></i>
-				</h4>
 			</div>
 			<div class="modal-body">
 				<p>분류를 추가해주세요.</p>
 				<form action="${pageContext.request.contextPath}/category/saveAdd" method="post">
 					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-envelope"></i></span>
 						<input type="hidden" name="parentId" value="${parentId}" readonly="readonly"/>
 						<input id="ctgrName" name="ctgrName" type="text" class="form-control" placeholder="분류명">
 					</div>
-					<br />
-					<button type="submit" value="sub" name="sub" class="btn btn-primary">
-						<i class="fa fa-share"></i> 추가
-					</button>
+					<br/>
+					<button type="submit" value="sub" name="sub" class="btn btn-primary">추가</button>
+<!-- 					<button type="submit" value="sub" name="sub" class="btn">삭제</button> -->
 				</form>
 			</div>
 <!-- 			<div class="modal-footer"> -->

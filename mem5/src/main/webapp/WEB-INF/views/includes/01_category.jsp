@@ -1,7 +1,7 @@
 <div class="bg-light border-right" id="category-wrapper">
 	<div class="sidebar-heading">
 		mem5
-		<a href="#" class="ctgrAdd" data-toggle="modal" data-target="#ctgr-modal">+</a>
+		<a href="#" class="ctgrAdd" data-toggle="modal" data-target="#ctgr-modal"><i class="fas fa-plus"></i></a>
 	</div>
 	<div class="list-group list-group-flush">
 		<!-- add category -->
