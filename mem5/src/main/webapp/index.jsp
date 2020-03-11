@@ -26,7 +26,9 @@ $(function(){
 			});
 			$('#category-wrapper .list-group-item').click(function(e) {
 				e.stopPropagation();
-				alert('gggg');
+				<%--카테고리아이디--%>
+				var categoryId = $(this).parent().data('cid');
+				console.log(categoryId);
 				$("#wrapper").toggleClass("sub");
 			});
 		}

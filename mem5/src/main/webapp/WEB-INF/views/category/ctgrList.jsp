@@ -6,11 +6,11 @@
 			<div class="item list-group-item bg-light">로그인해 주세요.</div>
 		</c:when>
 		<c:otherwise>
-			<div id="ctgr_All" data-id="-1" class="all item" style="position:relative;">
+			<div id="ctgr_All" data-cid="-1" class="all item" style="position:relative;">
 				<a href="#" class="list-group-item list-group-item-action bg-light">전체보기</a>
 			</div>
 			<c:forEach items="${list}" var="item">
-				<div id="ctgr" data-id="${item.id}" class="item" style="position:relative;">
+				<div id="ctgr" data-cid="${item.id}" class="item" style="position:relative;">
 					<a href="#" class="list-group-item list-group-item-action bg-light">${item.ctgrName}</a>
 					<span class="settingCtgr" onclick="settingCtgr('${item.id}', '${item.ctgrName}');" data-id="${item.id}"><i class="fas fa-cog"></i></span>
 				</div>
