@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.makao.memo.entity.Memo;
 import com.makao.memo.persistance.MemoDAO;
 
-@Service("categoryService")
+@Service("memoService")
 @Transactional
 public class MemoServiceImpl implements MemoService
 {
