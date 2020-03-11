@@ -1,5 +1,9 @@
     <div class="bg-light border-right" id="memolist-wrapper">
-      <div class="list-group list-group-flush">
+   	<div class="list-group-item list-group-item-action bg-light">
+   		<input type="text"/> 
+		<a href="${pageContext.request.contextPath}/memo/add"><i class="fas fa-plus"></i></a>
+	</div>
+    <div class="list-group list-group-flush">
       <!-- add memo -->
         <a href="#" class="list-group-item list-group-item-action bg-light">memo1</a>
         <a href="#" class="list-group-item list-group-item-action bg-light">memo2</a>
