@@ -11,21 +11,31 @@ $(function(){
 	    e.preventDefault();
 	    $("#wrapper").toggleClass("toggled");
 	});
-	$('#category-wrapper .list-group').click(function(e) {
-// 		$('#wrapper').addClass('sub');
-		$("#wrapper").toggleClass("sub");
-	});
 	
+	<%--카테고리 목록--%>
 	var myCtgrDiv = $('#myCtgr');
 	$.ajax({
 		type: "get",
 		url: "${pageContext.request.contextPath}/category/myList",
 		success : function(result) {
-			myCtgrDiv.empty();
+			myCtgrDiv.find('.item').remove();
 			$(result).appendTo(myCtgrDiv);
+			$('#category-wrapper .list-group .settingCtgr').click(function(e) {
+				e.stopPropagation();
+				$('#ctgr-modal').modal();
+			});
+			$('#category-wrapper .list-group-item').click(function(e) {
+				e.stopPropagation();
+				alert('gggg');
+				$("#wrapper").toggleClass("sub");
+			});
 		}
 	});
 });
+function settingCtgr(id, name) {
+	console.log(id);
+	console.log(name);
+}
 </script>
 <body>
   <div class="d-flex" id="wrapper">
