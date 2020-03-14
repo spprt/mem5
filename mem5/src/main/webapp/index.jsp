@@ -41,8 +41,33 @@ $(function(){
 	});
 });
 function settingCtgr(id, name) {
-	console.log(id);
-	console.log(name);
+	var modal = $('#ctgr-modal');
+	modal.addClass('update');
+	modal.attr('data-id', id);
+	modal.find('#ctgrName').val(name);
+	modal.on('hidden.bs.modal', function() {
+		modal.find('#ctgrName').val('');
+		modal.removeClass('update');
+		modal.removeAttr('data-id');
+		modalCtgrId = -1;
+	});
+}
+function saveCtgr(obj) {
+	var id = $(obj).parents('#ctgr-modal').data('id');
+	var frm = document.category;
+	if (id)
+		frm.appendChild(addData("id", id));
+	frm.action = "${pageContext.request.contextPath}/category/saveAdd";
+	frm.method = "post";
+	frm.submit();
+}
+function deleteCtgr(obj) {
+	var id = $(obj).parents('#ctgr-modal').data('id');
+	var frm = document.category;
+	frm.appendChild(addData("id", id));
+	frm.action = "${pageContext.request.contextPath}/category/del";
+	frm.method = "get";
+	frm.submit();
 }
 function getMemoList(ctgrId) {
 	return $.ajax({
@@ -87,15 +112,15 @@ function getMemoList(ctgrId) {
 				</button>
 			</div>
 			<div class="modal-body">
-				<p>분류를 추가해주세요.</p>
-				<form action="${pageContext.request.contextPath}/category/saveAdd" method="post">
+				<p class="insert">분류를 추가해주세요.</p>
+				<p class="update">분류를 수정해주세요.</p>
+				<form name="category" action="${pageContext.request.contextPath}/category/saveAdd" method="post">
 					<div class="input-group">
-						<input type="hidden" name="parentId" value="${parentId}" readonly="readonly"/>
 						<input id="ctgrName" name="ctgrName" type="text" class="form-control" placeholder="분류명">
 					</div>
 					<br/>
-					<button type="submit" value="sub" name="sub" class="btn btn-primary">추가</button>
-<!-- 					<button type="submit" value="sub" name="sub" class="btn">삭제</button> -->
+					<button type="button" onclick="saveCtgr(this);" value="sub" name="sub" class="btn btn-primary">저장</button>
+					<button type="button" onclick="deleteCtgr(this);" value="sub" name="sub" class="btn btn-secondary update">삭제</button>
 				</form>
 			</div>
 <!-- 			<div class="modal-footer"> -->

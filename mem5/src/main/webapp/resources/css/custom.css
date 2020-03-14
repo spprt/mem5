@@ -53,3 +53,13 @@
   z-index: 9;
   cursor: pointer;
 }
+
+.modal .modal-body .update {
+	display: none;
+}
+.modal.update .modal-body .update {
+	display: inline-block;
+}
+.modal.update .modal-body .insert {
+	display: none;	
+}

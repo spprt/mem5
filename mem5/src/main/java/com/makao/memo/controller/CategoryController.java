@@ -49,22 +49,17 @@ public class CategoryController {
 			ctgr.setIdx(service.getMaxCount(ctgr.getParentId(), authInfo.getId()));
 			service.addCategory(ctgr);
 		}
-//		return "redirect:/category/myList";
 		return "redirect:/";
 	}
 
 	@RequestMapping(value = "/category/del", method = RequestMethod.GET)
-	public ModelAndView delete(Long id, HttpSession session) throws Exception {
-
+	public String delete(Long id, HttpSession session) throws Exception {
 		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
 		Category ctgr = service.getCategory(id);
-
-		ModelAndView mv = new ModelAndView();
 		if (ctgr.getUserId().equals(authInfo.getId())) {
 			service.delCategory(id);
 		}
-		mv.setViewName("redirect:/category/myList");
-		return mv;
+		return "redirect:/";
 	}
 
 	@RequestMapping(value = "/category/edit", method = RequestMethod.GET)
