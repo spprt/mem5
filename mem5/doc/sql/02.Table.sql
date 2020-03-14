@@ -92,3 +92,17 @@ CREATE TABLE CATEGORY(
 	PRIMARY KEY(CTGRID),
 	FOREIGN KEY (USERID) REFERENCES MEMO_USER (USERID)
 );
+
+
+/****************************
+ * 메모 태그 테이블 MEMO_TAG
+	메모ID	MEMOID	FK	NOT NULL
+	태그명	TAG		
+	순서	IDX		
+ ***************************/
+CREATE TABLE MEMO_TAG(
+	MEMOID int(11) unsigned NOT NULL  COMMENT '메모ID',
+   	TAG varchar(100) COMMENT '태그',
+    IDX int(4) COMMENT '순서',
+	FOREIGN KEY (MEMOID) REFERENCES MEMO (MEMOID)
+);
