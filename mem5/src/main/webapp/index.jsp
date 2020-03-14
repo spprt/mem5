@@ -28,13 +28,21 @@ $(function(){
 				e.stopPropagation();
 
 				<%--카테고리아이디--%>
-				var categoryId = $(this).parent().data('cid');
-				console.log(categoryId);
-				getMemoList(categoryId).done(function(result){
-					console.log('reuslt', result)
-				}).fail(function(result){
-					console.error(result);
-				});
+				var categoryId = $(this).parent().data('id');
+				$('#memoList').empty();
+				if(categoryId == -1) {
+					getMemoList(categoryId).done(function(result){
+						if(result.array && result.array.length > 0) {
+							let arr = result.array;
+							for(i = 0; i < arr.length; i++) {
+								$('<a class="list-group-item list-group-item-action bg-light">').text(arr[i][1]).appendTo('#memoList');
+							}
+						}
+						
+					}).fail(function(result){
+						console.error(result);
+					});
+				}
 				$("#wrapper").toggleClass("sub");
 			});
 		}
@@ -70,12 +78,16 @@ function deleteCtgr(obj) {
 	frm.submit();
 }
 function getMemoList(ctgrId) {
-	return $.ajax({
-		type:'get',
-		dataType : 'json',
-		contentType:"application/json",
-		url: '${pageContext.request.contextPath}/memo/allMyList'
-	});
+	if (ctgrId == -1) {
+		return $.ajax({
+			type:'get',
+			dataType : 'json',
+			contentType:"application/json",
+			url: '${pageContext.request.contextPath}/memo/allMyList'
+		});
+	} else {
+		
+	}
 }
 </script>
 <body>
