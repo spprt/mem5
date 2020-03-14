@@ -15,7 +15,7 @@
 	      <form class="needs-validation" novalidate="" method="post" action="${pageContext.request.contextPath }/memo/saveNote">
 	          <div class="mb-3">
 	            <label for="title">Title</label>
-	            <input type="text" class="form-control" id="title" placeholder="" value="" required="">
+	            <input type="text" class="form-control" name="title" id="title" placeholder="" value="" required="">
 	            <div class="invalid-feedback">
 	              Valid title is required.
 	            </div>
@@ -27,7 +27,7 @@
 	            <div class="input-group-prepend">
 	              <span class="input-group-text">@</span>
 	            </div>
-	            <input type="hidden" id="regUserId" value="${authInfo.id}">
+	            <input type="hidden" name="regUserId" id="regUserId" value="${authInfo.id}">
 	            <input type="text" class="form-control" placeholder="Username" required="" value="${authInfo.name}" readonly>
 	          </div>
 	        </div>

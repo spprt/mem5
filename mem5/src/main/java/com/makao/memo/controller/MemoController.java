@@ -81,13 +81,13 @@ public class MemoController
 	@RequestMapping(value = "/memo/saveNote", method = RequestMethod.POST)
 	public ModelAndView saveNote(@ModelAttribute Memo memo, HttpSession session) throws Exception
 	{
-		ModelAndView mv = new ModelAndView();
 		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
 		if (null != authInfo) {
 			memo.setRegUserId(authInfo.getId());
 		}
 
 		service.addMemo(memo);
+		ModelAndView mv = new ModelAndView("redirect:/");
 		return mv;
 	}
 
