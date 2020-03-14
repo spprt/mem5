@@ -3,7 +3,7 @@
    		<input type="text"/> 
 		<a href="${pageContext.request.contextPath}/memo/selectType"><i class="fas fa-plus"></i></a>
 	</div>
-    <div class="list-group list-group-flush" id="memoList">
+    <div class="list-group list-group-flush" id="memoList" style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;">
       <!-- add memo -->
     </div>
 </div>

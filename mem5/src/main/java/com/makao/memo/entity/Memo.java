@@ -1,7 +1,6 @@
 package com.makao.memo.entity;
 
 import java.io.Serializable;
-import java.sql.Clob;
 import java.util.Date;
 
 import javax.persistence.Basic;
@@ -15,6 +14,9 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 
 @Entity
 @Table(name = "memo")
@@ -34,14 +36,16 @@ public class Memo implements Serializable
 	@Lob
 	@Basic(fetch = FetchType.LAZY)
 	@Column(name = "content")
-	private Clob content;
+	private String content;
 
+	@Generated(GenerationTime.INSERT)
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "reg_date")
+	@Column(name = "reg_date", insertable = false)
 	private Date regDate;
 
+	@Generated(GenerationTime.ALWAYS)
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "mod_date")
+	@Column(name = "mod_date", updatable = false, insertable = false)
 	private Date modDate;
 
 	@Column(name = "isdel")
@@ -55,7 +59,7 @@ public class Memo implements Serializable
 
 	@Column(name = "type")
 	private int type;
-	
+
 	/**
 	 * 메모타입: 일반노트(1)
 	 */
@@ -64,7 +68,7 @@ public class Memo implements Serializable
 	 * 메모타입: TO-DO리스트(2)
 	 */
 	public static final int TYPE_TODO = 2;
-	
+
 	public Long getId()
 	{
 		return id;
@@ -85,12 +89,12 @@ public class Memo implements Serializable
 		this.title = title;
 	}
 
-	public Clob getContent()
+	public String getContent()
 	{
 		return content;
 	}
 
-	public void setContent(Clob content)
+	public void setContent(String content)
 	{
 		this.content = content;
 	}
@@ -154,5 +158,5 @@ public class Memo implements Serializable
 	{
 		this.type = type;
 	}
-
+	
 }
