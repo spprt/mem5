@@ -3,6 +3,7 @@ package com.makao.memo.persistance;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
@@ -51,26 +52,10 @@ public class MemoDAOImpl implements MemoDAO
 	@Override
 	public List<Memo> getAllMemo(Long userId)
 	{
-		Session session = this.sessionFactory.openSession();
-		try
-		{
-			Criteria criteria = session.createCriteria(Memo.class);
-			criteria.add(Restrictions.eq("regUserId", userId));
-			criteria.addOrder(Order.desc("modDate"));
-			criteria.addOrder(Order.desc("id"));
-			return criteria.list();
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-		finally
-		{
-			if (session != null)
-				session.close();
-		}
-
-		return null;
+		String jpql = "SELECT m.id, m.title, m.regDate, m.modDate FROM Memo m where regUserId = :userId order by modDate desc, id desc";
+		Query query = getSession().createQuery(jpql);
+		query.setParameter("userId", userId);
+		return query.list();
 	}
 
 	@Override
