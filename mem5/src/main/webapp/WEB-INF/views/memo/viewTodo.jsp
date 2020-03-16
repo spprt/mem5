@@ -189,7 +189,7 @@ function removeItem(element) {
 			alert('success');
 		}		
 	});
-	$(element).parent().remove();
+	$element.closest('li').remove();
 	countTodos();
 }
 </script>

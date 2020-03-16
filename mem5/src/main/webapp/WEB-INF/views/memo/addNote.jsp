@@ -13,13 +13,15 @@
 	<c:otherwise>
 	      <h4 class="mb-3">Write Note</h4>
 	      <form class="needs-validation" novalidate="" method="post" action="${pageContext.request.contextPath }/memo/saveNote">
-	          <div class="mb-3">
+	      	<input type="hidden" name="regUserId" id="regUserId" value="${authInfo.id}">
+            <input type="hidden" name="type" value="<%= com.makao.memo.entity.Memo.TYPE_NOTE%>">
+			<div class="mb-3">
 	            <label for="title">Title</label>
 	            <input type="text" class="form-control" name="title" id="title" placeholder="" value="" required="">
 	            <div class="invalid-feedback">
 	              Valid title is required.
 	            </div>
-	          </div>
+			</div>
 	
 	        <div class="mb-3">
 	          <label for="username">Username</label>
@@ -27,7 +29,6 @@
 	            <div class="input-group-prepend">
 	              <span class="input-group-text">@</span>
 	            </div>
-	            <input type="hidden" name="regUserId" id="regUserId" value="${authInfo.id}">
 	            <input type="text" class="form-control" placeholder="Username" required="" value="${authInfo.name}" readonly>
 	          </div>
 	        </div>
@@ -42,10 +43,10 @@
 	
 	        <div class="mb-3">
 	          <label for="content">Content</label>
-	          <textarea type="text" class="form-control" id="content" required=""></textarea>
+	          <textarea type="text" class="form-control" name="content" id="content" required=""></textarea>
 	        </div>
 	        <hr class="mb-4">
-	        <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+	        <button class="btn btn-primary btn-lg btn-block" type="submit">Register</button>
 	      </form>
 	</c:otherwise>
 </c:choose>

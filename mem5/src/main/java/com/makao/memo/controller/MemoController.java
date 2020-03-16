@@ -58,13 +58,25 @@ public class MemoController {
 		if (null != ctgrId) {
 			mv.addObject("ctgrId", ctgrId);
 		}
-
-		if (type == Memo.TYPE_NOTE) {
-			mv.setViewName("memo/addNote");
-		} else if (type == Memo.TYPE_TODO) {
+		if (type == Memo.TYPE_NOTE)
+		{
+			mv.setViewName("redirect:/?rightPage=/memo/goAddNote");
+		}
+		else if (type == Memo.TYPE_TODO)
+		{
 			mv.setViewName("memo/addTodo");
 		}
 		return mv;
+	}
+	
+	@RequestMapping(value="/memo/goAddNote", method = RequestMethod.GET)
+	public String goAddNote(Long ctgrId) throws Exception{
+		String page = "/memo/addNote";
+		if(null!=ctgrId) {
+			page += "ctgrId=" + ctgrId;
+		}
+			
+		return page;
 	}
 
 	@RequestMapping(value = "/memo/saveNote", method = RequestMethod.POST)

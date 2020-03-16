@@ -11,7 +11,11 @@ $(function(){
 	    e.preventDefault();
 	    $("#wrapper").toggleClass("toggled");
 	});
-	
+	let rightPage = '${param.rightPage}';
+	console.log('rightPage', rightPage)
+	if(rightPage) {
+		loadRightArea(rightPage)
+	}
 	<%--카테고리 목록--%>
 	var myCtgrDiv = $('#myCtgr');
 	$.ajax({
@@ -35,6 +39,7 @@ $(function(){
 						if(result.array && result.array.length > 0) {
 							let arr = result.array;
 							for(i = 0; i < arr.length; i++) {
+//								$('<a class="list-group-item list-group-item-action bg-light">').text(arr[i][1]).attr('title', arr[i][1]).appendTo('#memoList');
 								var a = $('<a class="list-group-item list-group-item-action bg-light">').text(arr[i][1]).appendTo('#memoList');
 // 								a.attr('data-type', arr.type);
 								a.attr('data-type', 2);
@@ -46,12 +51,18 @@ $(function(){
 					}).fail(function(result){
 						console.error(result);
 					});
+				} else {
 				}
 				$("#wrapper").toggleClass("sub");
 			});
 		}
 	});
 });
+<%-- index우측화면 페이지로드 --%>
+function loadRightArea(page) {
+	console.log('loadRightArea ::' , page)
+	$('#rightContainer').load(page);
+}
 function settingCtgr(id, name) {
 	var modal = $('#ctgr-modal');
 	modal.addClass('update');
@@ -86,7 +97,7 @@ function deleteCtgr(obj) {
 function viewMemo(obj) {
 	var type = $(obj).data('type');
 	var id = $(obj).data('id');
-	$('#mainDiv').load('${pageContext.request.contextPath}/memo/view?id=' + id);
+	loadRightArea('${pageContext.request.contextPath}/memo/view?id=' + id)
 	if (type == '<%= com.makao.memo.entity.Memo.TYPE_NOTE %>') {
 	} else if (type == '<%= com.makao.memo.entity.Memo.TYPE_TODO %>') {
 	}
@@ -119,7 +130,7 @@ function getMemoList(ctgrId) {
     <!-- Page Content -->
     <div id="page-content-wrapper">
     <%@ include file="/WEB-INF/views/includes/04_nav.jsp" %>
-      <div class="container-fluid" id="mainDiv">
+      <div class="container-fluid" id="rightContainer">
         <h1 class="mt-4">Simple Sidebar</h1>
         <p>The starting state of the menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will change.</p>
         <p>Make sure to keep all page content within the <code>#page-content-wrapper</code>. The top navbar is optional, and just for demonstration. Just create an element with the <code>#menu-toggle</code> ID which will toggle the menu when clicked.</p>
