@@ -121,6 +121,7 @@ function createTodo(text) {
 			}
 		}		
 	});
+	countTodos();
 }
 
 //mark task as done
