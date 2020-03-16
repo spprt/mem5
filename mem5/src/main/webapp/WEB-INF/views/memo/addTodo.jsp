@@ -11,6 +11,41 @@
 		 <h4 class="mb-3">로그인을 먼저 해주세요</h4>
 	</c:when>
 	<c:otherwise>
+		<h4 class="mb-3">Write Todo</h4>
+	      <form class="needs-validation" novalidate="" method="post" action="${pageContext.request.contextPath }/memo/saveNote">
+	      <input type="hidden" name="type" value="<%= com.makao.memo.entity.Memo.TYPE_TODO %>"/>
+	          <div class="mb-3">
+	            <label for="title">Title</label>
+	            <input type="text" class="form-control" name="title" id="title" placeholder="" value="" required="">
+	            <div class="invalid-feedback">
+	              Valid title is required.
+	            </div>
+	          </div>
+	
+	        <div class="mb-3">
+	          <label for="username">Username</label>
+	          <div class="input-group">
+	            <div class="input-group-prepend">
+	              <span class="input-group-text">@</span>
+	            </div>
+	            <input type="hidden" name="regUserId" id="regUserId" value="${authInfo.id}">
+	            <input type="text" class="form-control" placeholder="Username" required="" value="${authInfo.name}" readonly>
+	          </div>
+	        </div>
+	
+	        <div class="mb-3">
+	          <label for="tag">TAG <span class="text-muted">(Optional)</span></label>
+	          <input type="text" class="form-control" id="tag" placeholder="쉼표(,)를 구분해서 입력해주세요">
+	          <div class="invalid-feedback">
+	            쉼표(,)를 구분해서 입력해주세요
+	          </div>
+	        </div>
+	
+	        <div class="mb-3">
+	        </div>
+	        <hr class="mb-4">
+	        <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+	      </form>
 	</c:otherwise>
 </c:choose>
 </div>

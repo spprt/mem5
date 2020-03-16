@@ -21,14 +21,11 @@ import com.makao.memo.service.MemoService;
 import com.makao.memo.util.AuthInfo;
 
 @Controller
-public class MemoController
-{
+public class MemoController {
 	private static final Logger logger = Logger.getLogger(MemoController.class);
 
-	public MemoController()
-	{
-		if (logger.isInfoEnabled())
-		{
+	public MemoController() {
+		if (logger.isInfoEnabled()) {
 			logger.info("MemoController()");
 		}
 	}
@@ -38,8 +35,7 @@ public class MemoController
 
 	@RequestMapping(value = "/memo/allMyList", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public Map<String, Object> getAllMyMemo(HttpSession session) throws Exception
-	{
+	public Map<String, Object> getAllMyMemo(HttpSession session) throws Exception {
 		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
 		List<Memo> list = service.getAllMemo(authInfo.getId());
 		Map<String, Object> resMap = new HashMap<String, Object>();
@@ -48,39 +44,31 @@ public class MemoController
 	}
 
 	@RequestMapping(value = "/memo/selectType", method = RequestMethod.GET)
-	public ModelAndView goAdd(Long ctgrId) throws Exception
-	{
+	public ModelAndView goAdd(Long ctgrId) throws Exception {
 		ModelAndView mv = new ModelAndView("memo/selectType");
-		if (null != ctgrId)
-		{
+		if (null != ctgrId) {
 			mv.addObject("ctgrId", ctgrId);
 		}
 		return mv;
 	}
 
 	@RequestMapping(value = "/memo/add", method = RequestMethod.GET)
-	public ModelAndView goAdd(Long ctgrId, int type) throws Exception
-	{
+	public ModelAndView goAdd(Long ctgrId, int type) throws Exception {
 		ModelAndView mv = new ModelAndView();
-		if (null != ctgrId)
-		{
+		if (null != ctgrId) {
 			mv.addObject("ctgrId", ctgrId);
 		}
 
-		if (type == Memo.TYPE_NOTE)
-		{
+		if (type == Memo.TYPE_NOTE) {
 			mv.setViewName("memo/addNote");
-		}
-		else if (type == Memo.TYPE_TODO)
-		{
+		} else if (type == Memo.TYPE_TODO) {
 			mv.setViewName("memo/addTodo");
 		}
 		return mv;
 	}
 
 	@RequestMapping(value = "/memo/saveNote", method = RequestMethod.POST)
-	public ModelAndView saveNote(@ModelAttribute Memo memo, HttpSession session) throws Exception
-	{
+	public ModelAndView saveNote(@ModelAttribute Memo memo, HttpSession session) throws Exception {
 		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
 		if (null != authInfo) {
 			memo.setRegUserId(authInfo.getId());
@@ -91,4 +79,15 @@ public class MemoController
 		return mv;
 	}
 
+	@RequestMapping(value = "/memo/view", method = RequestMethod.GET)
+	public ModelAndView viewMemo(Long id, HttpSession session) throws Exception {
+		Memo memo = service.readMemo(id);
+		String viewType = "memo/viewMemo";
+		if (memo.getType() == Memo.TYPE_TODO) {
+			viewType = "memo/viewTodo";
+		}
+		ModelAndView mv = new ModelAndView(viewType);
+		mv.addObject("memo", memo);
+		return mv;
+	}
 }

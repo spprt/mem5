@@ -2,9 +2,11 @@ package com.makao.memo.entity;
 
 import java.io.Serializable;
 import java.sql.Clob;
+import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,15 +14,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "memo")
-public class Memo implements Serializable
-{
-
+public class Memo implements Serializable {
 	private static final long serialVersionUID = -2714900674366558510L;
 
 	@Id
@@ -56,6 +57,9 @@ public class Memo implements Serializable
 	@Column(name = "type")
 	private int type;
 	
+	@OneToMany(mappedBy = "memo", fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+	private Collection<MemoTodo> todos;
+
 	/**
 	 * 메모타입: 일반노트(1)
 	 */
@@ -64,95 +68,84 @@ public class Memo implements Serializable
 	 * 메모타입: TO-DO리스트(2)
 	 */
 	public static final int TYPE_TODO = 2;
-	
-	public Long getId()
-	{
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Long id)
-	{
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public String getTitle()
-	{
+	public String getTitle() {
 		return title;
 	}
 
-	public void setTitle(String title)
-	{
+	public void setTitle(String title) {
 		this.title = title;
 	}
 
-	public Clob getContent()
-	{
+	public Clob getContent() {
 		return content;
 	}
 
-	public void setContent(Clob content)
-	{
+	public void setContent(Clob content) {
 		this.content = content;
 	}
 
-	public Date getRegDate()
-	{
+	public Date getRegDate() {
 		return regDate;
 	}
 
-	public void setRegDate(Date regDate)
-	{
+	public void setRegDate(Date regDate) {
 		this.regDate = regDate;
 	}
 
-	public Date getModDate()
-	{
+	public Date getModDate() {
 		return modDate;
 	}
 
-	public void setModDate(Date modDate)
-	{
+	public void setModDate(Date modDate) {
 		this.modDate = modDate;
 	}
 
-	public boolean isDel()
-	{
+	public boolean isDel() {
 		return isDel;
 	}
 
-	public void setDel(boolean isDel)
-	{
+	public void setDel(boolean isDel) {
 		this.isDel = isDel;
 	}
 
-	public Long getRegUserId()
-	{
+	public Long getRegUserId() {
 		return regUserId;
 	}
 
-	public void setRegUserId(Long regUserId)
-	{
+	public void setRegUserId(Long regUserId) {
 		this.regUserId = regUserId;
 	}
 
-	public Long getModUserId()
-	{
+	public Long getModUserId() {
 		return modUserId;
 	}
 
-	public void setModUserId(Long modUserId)
-	{
+	public void setModUserId(Long modUserId) {
 		this.modUserId = modUserId;
 	}
 
-	public int getType()
-	{
+	public int getType() {
 		return type;
 	}
 
-	public void setType(int type)
-	{
+	public void setType(int type) {
 		this.type = type;
 	}
 
+	public Collection<MemoTodo> getTodos() {
+		return todos;
+	}
+
+	public void setTodos(Collection<MemoTodo> todos) {
+		this.todos = todos;
+	}
 }

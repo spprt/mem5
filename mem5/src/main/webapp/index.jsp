@@ -35,7 +35,11 @@ $(function(){
 						if(result.array && result.array.length > 0) {
 							let arr = result.array;
 							for(i = 0; i < arr.length; i++) {
-								$('<a class="list-group-item list-group-item-action bg-light">').text(arr[i][1]).appendTo('#memoList');
+								var a = $('<a class="list-group-item list-group-item-action bg-light">').text(arr[i][1]).appendTo('#memoList');
+// 								a.attr('data-type', arr.type);
+								a.attr('data-type', 2);
+								a.attr('data-id', arr[i][0]);
+								a.attr('onclick', 'viewMemo(this);');
 							}
 						}
 						
@@ -53,6 +57,7 @@ function settingCtgr(id, name) {
 	modal.addClass('update');
 	modal.attr('data-id', id);
 	modal.find('#ctgrName').val(name);
+	<%--모달 닫았을때 초기화--%>
 	modal.on('hidden.bs.modal', function() {
 		modal.find('#ctgrName').val('');
 		modal.removeClass('update');
@@ -63,8 +68,9 @@ function settingCtgr(id, name) {
 function saveCtgr(obj) {
 	var id = $(obj).parents('#ctgr-modal').data('id');
 	var frm = document.category;
-	if (id)
+	if (id) {
 		frm.appendChild(addData("id", id));
+	}
 	frm.action = "${pageContext.request.contextPath}/category/saveAdd";
 	frm.method = "post";
 	frm.submit();
@@ -76,6 +82,14 @@ function deleteCtgr(obj) {
 	frm.action = "${pageContext.request.contextPath}/category/del";
 	frm.method = "get";
 	frm.submit();
+}
+function viewMemo(obj) {
+	var type = $(obj).data('type');
+	var id = $(obj).data('id');
+	$('#mainDiv').load('${pageContext.request.contextPath}/memo/view?id=' + id);
+	if (type == '<%= com.makao.memo.entity.Memo.TYPE_NOTE %>') {
+	} else if (type == '<%= com.makao.memo.entity.Memo.TYPE_TODO %>') {
+	}
 }
 function getMemoList(ctgrId) {
 	if (ctgrId == -1) {
@@ -105,7 +119,7 @@ function getMemoList(ctgrId) {
     <!-- Page Content -->
     <div id="page-content-wrapper">
     <%@ include file="/WEB-INF/views/includes/04_nav.jsp" %>
-      <div class="container-fluid">
+      <div class="container-fluid" id="mainDiv">
         <h1 class="mt-4">Simple Sidebar</h1>
         <p>The starting state of the menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will change.</p>
         <p>Make sure to keep all page content within the <code>#page-content-wrapper</code>. The top navbar is optional, and just for demonstration. Just create an element with the <code>#menu-toggle</code> ID which will toggle the menu when clicked.</p>

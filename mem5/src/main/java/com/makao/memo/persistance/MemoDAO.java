@@ -17,4 +17,6 @@ public interface MemoDAO
 	public List<Memo> getAllMemo(Long userId);
 	
 	public List<Memo> getCtgrMemo(Long userId, Long ctgrId);
+	
+	public void updateTodo(Long memoId, boolean checked);
 }
