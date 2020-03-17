@@ -12,7 +12,7 @@
 			<c:forEach items="${list}" var="item">
 				<div id="ctgr" data-id="${item.id}" class="item" style="position:relative;">
 					<a href="#" class="list-group-item list-group-item-action bg-light">${item.ctgrName}</a>
-					<span class="settingCtgr" onclick="settingCtgr('${item.id}', '${item.ctgrName}');" data-id="${item.id}"><i class="fas fa-cog"></i></span>
+					<span class="settingCtgr" onclick="settingCtgr('${item.id}', '${item.ctgrName}');" data-id="${item.id}"><i class="fas fa-pencil-alt"></i></span>
 				</div>
 			</c:forEach>
 		</c:otherwise>

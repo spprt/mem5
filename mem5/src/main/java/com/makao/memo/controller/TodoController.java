@@ -51,7 +51,6 @@ public class TodoController {
 
 	@RequestMapping(value = "/memo/todo/allCheck", method = RequestMethod.GET)
 	public String allCheck(Long id, boolean check, HttpSession session) throws Exception {
-		System.out.println("id :::" + id + "all check ::: " + check);
 		service.allCheckTodo(id, check);
 		return "";
 	}

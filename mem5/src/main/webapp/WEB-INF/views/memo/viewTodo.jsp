@@ -202,8 +202,8 @@ function removeItem(element) {
 			<div class="todolist not-done">
 				<h1>${memo.title}</h1>
 				<input type="text" class="form-control add-todo" placeholder="Add todo">
-				<button id="checkAllDone" class="btn btn-success">Mark all as done</button>
-				<button id="checkAllDoing" class="btn btn-success">Mark all as doing</button>
+				<button id="checkAllDone" class="btn btn-primary">Mark all as done</button>
+				<button id="checkAllDoing" class="btn btn-primary">Mark all as doing</button>
 				<hr>
 				<ul id="sortable" class="list-unstyled">
 					<c:forEach var="todo" items="${memo.todos}">

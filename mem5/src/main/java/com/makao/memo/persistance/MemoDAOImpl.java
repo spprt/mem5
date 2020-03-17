@@ -45,7 +45,7 @@ public class MemoDAOImpl implements MemoDAO {
 
 	@Override
 	public List<Memo> getAllMemo(Long userId) {
-		String jpql = "SELECT m.id, m.title, m.regDate, m.modDate FROM Memo m where regUserId = :userId order by modDate desc, id desc";
+		String jpql = "SELECT m.id, m.title, m.type, m.regDate, m.modDate FROM Memo m where regUserId = :userId order by modDate desc, id desc";
 		Query query = getSession().createQuery(jpql);
 		query.setParameter("userId", userId);
 		return query.list();

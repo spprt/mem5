@@ -12,8 +12,7 @@ $(function(){
 	    $("#wrapper").toggleClass("toggled");
 	});
 	let rightPage = '${param.rightPage}';
-	console.log('rightPage', rightPage)
-	if(rightPage) {
+	if (rightPage) {
 		loadRightArea(rightPage)
 	}
 	<%--카테고리 목록--%>
@@ -34,21 +33,24 @@ $(function(){
 				<%--카테고리아이디--%>
 				var categoryId = $(this).parent().data('id');
 				$('#memoList').empty();
-				if(categoryId == -1) {
-					getMemoList(categoryId).done(function(result){
-						if(result.array && result.array.length > 0) {
+				if (categoryId == -1) {
+					getMemoList(categoryId).done(function(result) {
+						if (result.array && result.array.length > 0) {
 							let arr = result.array;
-							for(i = 0; i < arr.length; i++) {
-//								$('<a class="list-group-item list-group-item-action bg-light">').text(arr[i][1]).attr('title', arr[i][1]).appendTo('#memoList');
-								var a = $('<a class="list-group-item list-group-item-action bg-light">').text(arr[i][1]).appendTo('#memoList');
-// 								a.attr('data-type', arr.type);
-								a.attr('data-type', 2);
+							for (i = 0; i < arr.length; i++) {
+								var a = $('<a class="list-group-item list-group-item-action bg-light">').appendTo('#memoList');
+								var type = arr[i][2];
+								if (type == <%= com.makao.memo.entity.Memo.TYPE_NOTE %>) {
+									$('<i class="fas fa-sticky-note"></i>').appendTo(a);
+								} else if (type == <%= com.makao.memo.entity.Memo.TYPE_TODO %>) {
+									$('<i class="fas fa-list-ul"></i>').appendTo(a);
+								}
+								$('<span>').css('padding-left', '5px').text(arr[i][1]).appendTo(a);
 								a.attr('data-id', arr[i][0]);
 								a.attr('onclick', 'viewMemo(this);');
 							}
 						}
-						
-					}).fail(function(result){
+					}).fail(function(result) {
 						console.error(result);
 					});
 				} else {
@@ -60,7 +62,7 @@ $(function(){
 });
 <%-- index우측화면 페이지로드 --%>
 function loadRightArea(page) {
-	console.log('loadRightArea ::' , page)
+// 	console.log('loadRightArea ::' , page)
 	$('#rightContainer').load(page);
 }
 function settingCtgr(id, name) {
@@ -95,19 +97,15 @@ function deleteCtgr(obj) {
 	frm.submit();
 }
 function viewMemo(obj) {
-	var type = $(obj).data('type');
 	var id = $(obj).data('id');
 	loadRightArea('${pageContext.request.contextPath}/memo/view?id=' + id)
-	if (type == '<%= com.makao.memo.entity.Memo.TYPE_NOTE %>') {
-	} else if (type == '<%= com.makao.memo.entity.Memo.TYPE_TODO %>') {
-	}
 }
 function getMemoList(ctgrId) {
 	if (ctgrId == -1) {
 		return $.ajax({
-			type:'get',
-			dataType : 'json',
-			contentType:"application/json",
+			type: 'get',
+			dataType: 'json',
+			contentType: 'application/json',
 			url: '${pageContext.request.contextPath}/memo/allMyList'
 		});
 	} else {

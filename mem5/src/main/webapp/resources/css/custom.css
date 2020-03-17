@@ -1,3 +1,4 @@
+/* index add css */
 .list-group-item.active {
     background-color: #007bff!important;
 }
@@ -52,8 +53,19 @@
   top: 13px;
   z-index: 9;
   cursor: pointer;
+  display: none;
 }
 
+#sidebar-wrapper .list-group .item:hover .settingCtgr {
+  display: inline-block;
+}
+
+/* index category */
+a.bg-light.selected {
+    background-color: #dae0e5!important;
+}
+
+/* index modal */
 .modal .modal-body .update {
 	display: none;
 }
@@ -62,4 +74,18 @@
 }
 .modal.update .modal-body .insert {
 	display: none;	
+}
+
+/* index memo */
+.memo-heading {
+    border: 0;
+    padding: 0.830rem 1.25rem;
+}
+.memo-heading .addMemo {
+	position: absolute;
+    right: 13px;
+    top: 16px;
+}
+#memolist-wrapper .list-group-item {
+	cursor: pointer;
 }

@@ -43,6 +43,16 @@ public class MemoController {
 		return resMap;
 	}
 
+	@RequestMapping(value = "/memo/myList", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public Map<String, Object> getMyMemo(Long id, HttpSession session) throws Exception {
+		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
+		List<Memo> list = service.getCtgrMemo(authInfo.getId(), id);
+		Map<String, Object> resMap = new HashMap<String, Object>();
+		resMap.put("array", list);
+		return resMap;
+	}
+
 	@RequestMapping(value = "/memo/selectType", method = RequestMethod.GET)
 	public ModelAndView goAdd(Long ctgrId) throws Exception {
 		ModelAndView mv = new ModelAndView("memo/selectType");
@@ -58,24 +68,21 @@ public class MemoController {
 		if (null != ctgrId) {
 			mv.addObject("ctgrId", ctgrId);
 		}
-		if (type == Memo.TYPE_NOTE)
-		{
+		if (type == Memo.TYPE_NOTE) {
 			mv.setViewName("redirect:/?rightPage=/memo/goAddNote");
-		}
-		else if (type == Memo.TYPE_TODO)
-		{
+		} else if (type == Memo.TYPE_TODO) {
 			mv.setViewName("memo/addTodo");
 		}
 		return mv;
 	}
-	
-	@RequestMapping(value="/memo/goAddNote", method = RequestMethod.GET)
-	public String goAddNote(Long ctgrId) throws Exception{
+
+	@RequestMapping(value = "/memo/goAddNote", method = RequestMethod.GET)
+	public String goAddNote(Long ctgrId) throws Exception {
 		String page = "/memo/addNote";
-		if(null!=ctgrId) {
+		if (null != ctgrId) {
 			page += "ctgrId=" + ctgrId;
 		}
-			
+
 		return page;
 	}
 
