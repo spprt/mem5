@@ -9,7 +9,8 @@
 <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm" style="background: #005dc1;">
     <div class="lh-100">
       <h6 class="mb-0 text-white lh-100">${memo.title}</h6>
-      <small><fmt:formatDate value="${memo.regDate }" pattern="yyyy-MM-dd HH:mm:ss "/> </small>
+      <small><fmt:formatDate value="${memo.regDate }" pattern="yyyy-MM-dd HH:mm:ss "/> 
+      </small>
     </div>
   </div>
 	<div class="my-3 p-3 bg-white rounded shadow-sm">
@@ -24,7 +25,7 @@
 		</div>
 		</c:if>
 		<small class="d-block text-right mt-3">
-		  <a href="#">수정</a>
+		  <a href="${pageContext.request.contextPath }/memo/goEditNote?id=${memo.id}">수정</a>
 		</small>
 	</div>
 </main>

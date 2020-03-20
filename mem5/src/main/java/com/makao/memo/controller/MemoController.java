@@ -1,10 +1,12 @@
 package com.makao.memo.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.makao.memo.entity.Memo;
+import com.makao.memo.entity.Memo.Tag;
 import com.makao.memo.entity.MemoShare;
 import com.makao.memo.entity.User;
 import com.makao.memo.service.MemoService;
@@ -131,6 +134,34 @@ public class MemoController {
 		}
 		ModelAndView mv = new ModelAndView(viewType);
 		mv.addObject("memo", memo);
+		return mv;
+	}
+	
+	@RequestMapping(value = "/memo/goEditNote", method = RequestMethod.GET)
+	public ModelAndView goEdit(Long id, HttpSession session) throws Exception{
+		Memo memo = service.readMemo(id);
+		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
+		ModelAndView mv = new ModelAndView();
+		if (null != authInfo && authInfo.getId() == memo.getRegUserId()) {
+			mv.addObject("memo", memo);
+			List<Tag> tags = memo.getTags();
+			String tagStr = tags.stream().map(t->t.getTag()).collect(Collectors.joining(","));
+			mv.addObject("tagStr", tagStr);
+//			mv.setViewName("redirect:/?rightPage=/memo/editNote");
+			mv.setViewName("memo/editNote");
+		} else {
+			mv.setViewName("redirect:/");
+		}
+		
+		return mv;
+	}
+	
+	@RequestMapping(value = "/memo/saveEditNote", method = RequestMethod.POST)
+	public ModelAndView editNote(@ModelAttribute Memo memo, HttpSession session) throws Exception {
+//		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
+		memo.setModDate(new Date());
+		service.updateMemo(memo);
+		ModelAndView mv = new ModelAndView("redirect:/");
 		return mv;
 	}
 }

@@ -48,12 +48,12 @@ public class Memo implements Serializable {
 
 	@Generated(GenerationTime.INSERT)
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "reg_date", insertable = false)
+	@Column(name = "reg_date", insertable = false, updatable=false)
 	private Date regDate;
 
 	@Generated(GenerationTime.ALWAYS)
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "mod_date", updatable = false, insertable = false)
+	@Column(name = "mod_date", insertable = false)
 	private Date modDate;
 
 	@Column(name = "isdel")

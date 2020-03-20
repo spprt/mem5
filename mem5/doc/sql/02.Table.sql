@@ -38,7 +38,7 @@ CREATE TABLE MEMO(
     TITLE varchar(255)  COMMENT '제목',
     CONTENT LONGTEXT COMMENT '내용',
     REG_DATE datetime default now() COMMENT '작성일',
-    MOD_DATE datetime COMMENT '수정일',
+    MOD_DATE datetime default now() COMMENT '수정일',
     ISDEL tinyint(1) DEFAULT '0' COMMENT '삭제여부',
     REG_USERID BIGINT(20) NOT NULL COMMENT '작성자ID',
    	MOD_USERID BIGINT(20) COMMENT '수정자ID',
@@ -47,6 +47,7 @@ CREATE TABLE MEMO(
 	FOREIGN KEY (REG_USERID) REFERENCES MEMO_USER (USERID)
 );
 
+-- ALTER TABLE `memo` CHANGE `mod_date` `mod_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
 /**************************
  * 메모공유테이블 MEMO_SHARE
 	메모ID	MEMOID	FK	NOT NULL
