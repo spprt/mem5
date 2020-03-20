@@ -29,7 +29,7 @@
     <beans:bean class="org.springframework.jdbc.datasource.DriverManagerDataSource"
         id="dataSource">
         <beans:property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <beans:property name="url" value="jdbc:mysql://localhost:3306/makao?characterEncoding=UTF-8&amp;serverTimezone=UTC" />
+        <beans:property name="url" value="jdbc:mysql://localhost:3306/makao?characterEncoding=UTF-8&amp;serverTimezone=Asia/Seoul" />
         <beans:property name="username" value="mem5" />
         <beans:property name="password" value="makao123" />
     </beans:bean>
