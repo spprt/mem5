@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.makao.memo.entity.Memo;
-import com.makao.memo.entity.Memo.Tag;
 import com.makao.memo.entity.MemoShare;
 import com.makao.memo.entity.User;
 import com.makao.memo.service.MemoService;

@@ -7,20 +7,20 @@
 <script type="text/javascript">
 function formsubmit(f){
 	let tag = f.tag;
-	let tags = [];
+	let tagArr = [];
     if(tag.value.length > 0){
-    	tags = Array.from(new Set(tag.value.split(',')));
-    	tags = tags.filter(v =>  v != '');
+    	tagArr = Array.from(new Set(tag.value.split(',')));
+    	tagArr = tagArr.filter(v =>  v != '');
     }
     
   	let $tags = $('input[name*="tags"');
   	if($tags) {
   		$tags.remove();
   	}
-    tags.forEach((t, idx) => {
-    	f.appendChild(addData('tags['+ idx +']', t));
-    });
-    console.log('ff', f)
+  	tagArr.forEach((t, idx) => {
+  		if (idx < 10)
+  			f.appendChild(addData('tags['+ idx +'].tag', t));
+  	});
     	
 	f.method = 'post';
 	f.submit();
@@ -70,7 +70,6 @@ function formsubmit(f){
 	        </div>
 	        <hr class="mb-4">
 	        <input type="button" value="Register" class="btn btn-primary btn-lg btn-block" onclick="formsubmit(this.form)">
-	       <!--  <button class="btn btn-primary btn-lg btn-block" type="submit">Register</button> -->
 	      </form>
 	</c:otherwise>
 </c:choose>

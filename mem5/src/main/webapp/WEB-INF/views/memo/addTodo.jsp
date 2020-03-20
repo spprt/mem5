@@ -4,6 +4,28 @@
 <head>
   <%@ include file="/WEB-INF/views/includes/00_head.jsp" %>
 </head>
+<script type="text/javascript">
+function formsubmit(f){
+	let tag = f.tag;
+	let tagArr = [];
+    if(tag.value.length > 0){
+    	tagArr = Array.from(new Set(tag.value.split(',')));
+    	tagArr = tagArr.filter(v =>  v != '');
+    }
+    
+  	let $tags = $('input[name*="tags"');
+  	if($tags) {
+  		$tags.remove();
+  	}
+  	tagArr.forEach((t, idx) => {
+  		if (idx < 10)
+    		f.appendChild(addData('tags['+ idx +'].tag', t));
+    });
+    	
+	f.method = 'post';
+	f.submit();
+}
+</script>
 <body>
 <div class="col-md-12">
 <c:choose>
@@ -36,7 +58,7 @@
 	
 	        <div class="mb-3">
 	          <label for="tag">TAG <span class="text-muted">(Optional)</span></label>
-	          <input type="text" class="form-control" id="tag" placeholder="쉼표(,)를 구분해서 입력해주세요">
+	          <input type="text" class="form-control" name="tag" placeholder="쉼표(,)를 구분해서 입력해주세요">
 	          <div class="invalid-feedback">
 	            쉼표(,)를 구분해서 입력해주세요
 	          </div>
@@ -45,7 +67,7 @@
 	        <div class="mb-3">
 	        </div>
 	        <hr class="mb-4">
-	        <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+            <input type="button" value="Register" class="btn btn-primary btn-lg btn-block" onclick="formsubmit(this.form)">
 	      </form>
 	</c:otherwise>
 </c:choose>

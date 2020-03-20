@@ -74,7 +74,7 @@ public class Memo implements Serializable {
 	@OneToMany(mappedBy = "memo", fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
 	private Collection<MemoShare> shares;
 
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "memo_tag", joinColumns = @JoinColumn(name = "memoid")) 
 	@OrderColumn(name = "idx") // 지정한 컬럼에 리스트의 인덱스 값 저장
 	private List<Tag> tags;

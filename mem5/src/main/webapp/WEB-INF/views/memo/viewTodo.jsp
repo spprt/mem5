@@ -201,6 +201,15 @@ function removeItem(element) {
 		<div class="col-md-12">
 			<div class="todolist not-done">
 				<h1>${memo.title}</h1>
+				<c:if test="${not empty memo.tags }">
+					<div class="media text-muted">
+					  <p class="media-body pb-3 mb-0 small lh-125">
+					  	<c:forEach var="tag" items="${memo.tags}">
+							#<c:out value="${tag.tag}"/>
+						</c:forEach>
+					  </p>
+					</div>
+				</c:if>
 				<input type="text" class="form-control add-todo" placeholder="Add todo">
 				<button id="checkAllDone" class="btn btn-primary">Mark all as done</button>
 				<button id="checkAllDoing" class="btn btn-primary">Mark all as doing</button>
