@@ -2,19 +2,25 @@ package com.makao.memo.entity;
 
 import java.io.Serializable;
 import java.util.Collection;
-//github.com/spprt/mem5.git
+// github.com/spprt/mem5.git
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -64,6 +70,14 @@ public class Memo implements Serializable {
 
 	@OneToMany(mappedBy = "memo", fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
 	private Collection<MemoTodo> todos;
+
+	@OneToMany(mappedBy = "memo", fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+	private Collection<MemoShare> shares;
+
+	@ElementCollection
+	@CollectionTable(name = "memo_tag", joinColumns = @JoinColumn(name = "memoid")) 
+	@OrderColumn(name = "idx") // 지정한 컬럼에 리스트의 인덱스 값 저장
+	private List<Tag> tags;
 
 	/**
 	 * 메모타입: 일반노트(1)
@@ -152,5 +166,49 @@ public class Memo implements Serializable {
 
 	public void setTodos(Collection<MemoTodo> todos) {
 		this.todos = todos;
+	}
+
+	public List<Tag> getTags()
+	{
+		return tags;
+	}
+
+	public void setTags(List<Tag> tags)
+	{
+		this.tags = tags;
+	}
+
+	@Embeddable
+	@Table(name="memo_tag")
+	public static class Tag
+	{
+		@Column(name="tag")
+		String tag;
+
+		public Tag()
+		{
+		}
+
+		public Tag(Tag tag)
+		{
+			this.tag = tag.getTag();
+		}
+		
+		public String getTag()
+		{
+			return tag;
+		}
+		public void setTag(String tag)
+		{
+			this.tag = tag;
+		}
+	}
+
+	public Collection<MemoShare> getShares() {
+		return shares;
+	}
+
+	public void setShares(Collection<MemoShare> shares) {
+		this.shares = shares;
 	}
 }

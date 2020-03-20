@@ -4,6 +4,28 @@
 <head>
   <%@ include file="/WEB-INF/views/includes/00_head.jsp" %>
 </head>
+<script type="text/javascript">
+function formsubmit(f){
+	let tag = f.tag;
+	let tags = [];
+    if(tag.value.length > 0){
+    	tags = Array.from(new Set(tag.value.split(',')));
+    	tags = tags.filter(v =>  v != '');
+    }
+    
+  	let $tags = $('input[name*="tags"');
+  	if($tags) {
+  		$tags.remove();
+  	}
+    tags.forEach((t, idx) => {
+    	f.appendChild(addData('tags['+ idx +']', t));
+    });
+    console.log('ff', f)
+    	
+	f.method = 'post';
+	f.submit();
+}
+</script>
 <body>
 <div class="col-md-12">
 <c:choose>
@@ -14,6 +36,7 @@
 	      <h4 class="mb-3">Write Note</h4>
 	      <form class="needs-validation" novalidate="" method="post" action="${pageContext.request.contextPath }/memo/saveNote">
 	      	<input type="hidden" name="regUserId" id="regUserId" value="${authInfo.id}">
+	      	<input type="hidden" name="ctgrId" id="ctgrId" value="${ctgrId}">
             <input type="hidden" name="type" value="<%= com.makao.memo.entity.Memo.TYPE_NOTE%>">
 			<div class="mb-3">
 	            <label for="title">Title</label>
@@ -35,7 +58,7 @@
 	
 	        <div class="mb-3">
 	          <label for="tag">TAG <span class="text-muted">(Optional)</span></label>
-	          <input type="text" class="form-control" id="tag" placeholder="쉼표(,)를 구분해서 입력해주세요">
+	          <input type="text" class="form-control" name="tag" placeholder="쉼표(,)를 구분해서 입력해주세요">
 	          <div class="invalid-feedback">
 	            쉼표(,)를 구분해서 입력해주세요
 	          </div>
@@ -46,7 +69,8 @@
 	          <textarea type="text" class="form-control" name="content" id="content" required=""></textarea>
 	        </div>
 	        <hr class="mb-4">
-	        <button class="btn btn-primary btn-lg btn-block" type="submit">Register</button>
+	        <input type="button" value="Register" class="btn btn-primary btn-lg btn-block" onclick="formsubmit(this.form)">
+	       <!--  <button class="btn btn-primary btn-lg btn-block" type="submit">Register</button> -->
 	      </form>
 	</c:otherwise>
 </c:choose>

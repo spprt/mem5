@@ -7,7 +7,7 @@
 		</c:when>
 		<c:otherwise>
 			<div id="ctgr_All" data-id="-1" class="all item" style="position:relative;">
-				<a href="#" class="list-group-item list-group-item-action bg-light">전체보기</a>
+				<a href="#" class="list-group-item list-group-item-action bg-light selected">전체보기</a>
 			</div>
 			<c:forEach items="${list}" var="item">
 				<div id="ctgr" data-id="${item.id}" class="item" style="position:relative;">

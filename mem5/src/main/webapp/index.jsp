@@ -15,6 +15,7 @@ $(function(){
 	if (rightPage) {
 		loadRightArea(rightPage)
 	}
+	
 	<%--카테고리 목록--%>
 	var myCtgrDiv = $('#myCtgr');
 	$.ajax({
@@ -29,40 +30,57 @@ $(function(){
 			});
 			$('#category-wrapper .list-group-item').click(function(e) {
 				e.stopPropagation();
-
 				<%--카테고리아이디--%>
 				var categoryId = $(this).parent().data('id');
-				$('#memoList').empty();
-				if (categoryId == -1) {
-					getMemoList(categoryId).done(function(result) {
-						if (result.array && result.array.length > 0) {
-							let arr = result.array;
-							for (i = 0; i < arr.length; i++) {
-								var a = $('<a class="list-group-item list-group-item-action bg-light">').appendTo('#memoList');
-								var type = arr[i][2];
-								if (type == <%= com.makao.memo.entity.Memo.TYPE_NOTE %>) {
-									$('<i class="fas fa-sticky-note"></i>').appendTo(a);
-								} else if (type == <%= com.makao.memo.entity.Memo.TYPE_TODO %>) {
-									$('<i class="fas fa-list-ul"></i>').appendTo(a);
-								}
-								$('<span>').css('padding-left', '5px').text(arr[i][1]).appendTo(a);
-								a.attr('data-id', arr[i][0]);
-								a.attr('onclick', 'viewMemo(this);');
-							}
-						}
-					}).fail(function(result) {
-						console.error(result);
-					});
-				} else {
-				}
-				$("#wrapper").toggleClass("sub");
+				selectCtgr(categoryId);
 			});
+			
+			selectCtgr('${param.ctgrId}');
 		}
 	});
 });
+<%-- Category Selected Manage Start --%>
+var selectedCtgrId;
+function selectCtgr(ctgrId) {
+	if (!ctgrId) {
+		ctgrId = -1;
+		clickCtgr(ctgrId);
+	} else {
+		if ((typeof selectedCtgrId ==='undefined') || selectedCtgrId != ctgrId) {
+			clickCtgr(ctgrId);
+		}
+	}
+}
+function clickCtgr(categoryId) {
+	$('#memoList').empty();
+	getMemoList(categoryId).done(function(result) {
+		if (result.array && result.array.length > 0) {
+			let arr = result.array;
+			for (i = 0; i < arr.length; i++) {
+				var a = $('<a class="list-group-item list-group-item-action bg-light">').appendTo('#memoList');
+				var type = arr[i][2];
+				if (type == <%= com.makao.memo.entity.Memo.TYPE_NOTE %>) {
+					$('<i class="fas fa-sticky-note"></i>').appendTo(a);
+				} else if (type == <%= com.makao.memo.entity.Memo.TYPE_TODO %>) {
+					$('<i class="fas fa-list-ul"></i>').appendTo(a);
+				}
+				$('<span>').css('padding-left', '5px').text(arr[i][1]).appendTo(a);
+				a.attr('data-id', arr[i][0]);
+				a.attr('onclick', 'viewMemo(this);');
+			}
+		}
+	}).fail(function(result) {
+		console.error(result);
+	});
+	selectedCtgrId = categoryId;
+	$('#category-wrapper .list-group-item').removeClass('selected');
+	
+	var item = $('#category-wrapper').find('.item[data-id="'+categoryId+'"]');
+	item.find('.list-group-item').addClass('selected');
+}
+<%-- Category Selected Manage End --%>
 <%-- index우측화면 페이지로드 --%>
 function loadRightArea(page) {
-// 	console.log('loadRightArea ::' , page)
 	$('#rightContainer').load(page);
 }
 function settingCtgr(id, name) {
@@ -101,16 +119,18 @@ function viewMemo(obj) {
 	loadRightArea('${pageContext.request.contextPath}/memo/view?id=' + id)
 }
 function getMemoList(ctgrId) {
-	if (ctgrId == -1) {
-		return $.ajax({
-			type: 'get',
-			dataType: 'json',
-			contentType: 'application/json',
-			url: '${pageContext.request.contextPath}/memo/allMyList'
-		});
-	} else {
-		
-	}
+	console.log(ctgrId);
+	var url = (ctgrId == -1) ? '/memo/allMyList' : '/memo/myList';
+	return $.ajax({
+		type: 'get',
+		data: {ctgrId: ctgrId},
+		dataType: 'json',
+		contentType: 'application/json',
+		url: '${pageContext.request.contextPath}' + url
+	});
+}
+function memoType() {
+	loadRightArea('${pageContext.request.contextPath}/memo/selectType?ctgrId=' + selectedCtgrId);
 }
 </script>
 <body>
@@ -129,7 +149,7 @@ function getMemoList(ctgrId) {
     <div id="page-content-wrapper">
     <%@ include file="/WEB-INF/views/includes/04_nav.jsp" %>
       <div class="container-fluid" id="rightContainer">
-        <h1 class="mt-4">Simple Sidebar</h1>
+        <h1 class="mt-4">Mem<b>5</b></h1>
         <p>The starting state of the menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will change.</p>
         <p>Make sure to keep all page content within the <code>#page-content-wrapper</code>. The top navbar is optional, and just for demonstration. Just create an element with the <code>#menu-toggle</code> ID which will toggle the menu when clicked.</p>
       </div>
@@ -158,9 +178,6 @@ function getMemoList(ctgrId) {
 					<button type="button" onclick="deleteCtgr(this);" value="sub" name="sub" class="btn btn-secondary update">삭제</button>
 				</form>
 			</div>
-<!-- 			<div class="modal-footer"> -->
-<!-- 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
-<!-- 			</div> -->
 		</div>
 	</div>
 </div>

@@ -13,6 +13,7 @@
 	<c:otherwise>
 		<h4 class="mb-3">Write Todo</h4>
 	      <form class="needs-validation" novalidate="" method="post" action="${pageContext.request.contextPath }/memo/saveNote">
+	      <input type="hidden" name="ctgrId" id="ctgrId" value="${ctgrId}">
 	      <input type="hidden" name="type" value="<%= com.makao.memo.entity.Memo.TYPE_TODO %>"/>
 	          <div class="mb-3">
 	            <label for="title">Title</label>
