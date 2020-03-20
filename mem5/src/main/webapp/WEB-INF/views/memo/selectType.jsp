@@ -19,7 +19,7 @@
         <ul class="list-unstyled mt-2 mb-1">
           <li><a><i class="fas fa-sticky-note" style="font-size: 48px;"></i></a></li>
         </ul>
-        <button type="button" class="btn btn-lg btn-block btn-outline-primary"  onclick="location.href='/memo/add?type=<%= com.makao.memo.entity.Memo.TYPE_NOTE%>'">Select Note</button>
+        <button type="button" class="btn btn-lg btn-block btn-outline-primary"  onclick="location.href='/memo/add?ctgrId=${ctgrId}&amp;type=<%= com.makao.memo.entity.Memo.TYPE_NOTE%>'">Select Note</button>
       </div>
     </div>
     <div class="card mb-4 shadow-sm">
@@ -30,7 +30,7 @@
         <ul class="list-unstyled mt-2 mb-1">
           <li><i class="fas fa-list-ol" style="font-size: 48px;"></i></li>
         </ul>
-        <button type="button" class="btn btn-lg btn-block btn-outline-primary" onclick="location.href='/memo/add?type=<%= com.makao.memo.entity.Memo.TYPE_TODO%>'">Select TO-DO</button>
+        <button type="button" class="btn btn-lg btn-block btn-outline-primary" onclick="location.href='/memo/add?ctgrId=${ctgrId}&amp;type=<%= com.makao.memo.entity.Memo.TYPE_TODO%>'">Select TO-DO</button>
       </div>
     </div>
   </div>

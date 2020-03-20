@@ -65,6 +65,9 @@ public class Memo implements Serializable {
 	@OneToMany(mappedBy = "memo", fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
 	private Collection<MemoTodo> todos;
 
+	@OneToMany(mappedBy = "memo", fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+	private Collection<MemoShare> shares;
+
 	/**
 	 * 메모타입: 일반노트(1)
 	 */
@@ -152,5 +155,13 @@ public class Memo implements Serializable {
 
 	public void setTodos(Collection<MemoTodo> todos) {
 		this.todos = todos;
+	}
+
+	public Collection<MemoShare> getShares() {
+		return shares;
+	}
+
+	public void setShares(Collection<MemoShare> shares) {
+		this.shares = shares;
 	}
 }

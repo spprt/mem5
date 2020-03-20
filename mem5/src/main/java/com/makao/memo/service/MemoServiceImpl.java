@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import com.makao.memo.entity.Memo;
+import com.makao.memo.entity.MemoShare;
 import com.makao.memo.entity.MemoTodo;
 import com.makao.memo.persistance.MemoDAO;
 import com.makao.memo.persistance.TodoDAO;
@@ -22,8 +23,10 @@ public class MemoServiceImpl implements MemoService {
 	private TodoDAO todoDAO;
 
 	@Override
-	public void addMemo(Memo memo) {
+	public void addMemo(Memo memo, MemoShare share) {
 		memoDAO.addMemo(memo);
+		share.setMemo(memo);
+		memoDAO.addShare(memo, share);
 	}
 
 	@Override

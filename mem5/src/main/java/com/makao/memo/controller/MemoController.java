@@ -1,8 +1,10 @@
 package com.makao.memo.controller;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -17,7 +19,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.makao.memo.entity.Memo;
+import com.makao.memo.entity.MemoShare;
+import com.makao.memo.entity.User;
 import com.makao.memo.service.MemoService;
+import com.makao.memo.service.UserService;
 import com.makao.memo.util.AuthInfo;
 
 @Controller
@@ -33,6 +38,9 @@ public class MemoController {
 	@Autowired
 	private MemoService service;
 
+	@Autowired
+	private UserService userSer;
+
 	@RequestMapping(value = "/memo/allMyList", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public Map<String, Object> getAllMyMemo(HttpSession session) throws Exception {
@@ -45,9 +53,9 @@ public class MemoController {
 
 	@RequestMapping(value = "/memo/myList", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public Map<String, Object> getMyMemo(Long id, HttpSession session) throws Exception {
+	public Map<String, Object> getMyMemo(Long ctgrId, HttpSession session) throws Exception {
 		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
-		List<Memo> list = service.getCtgrMemo(authInfo.getId(), id);
+		List<Memo> list = service.getCtgrMemo(authInfo.getId(), ctgrId);
 		Map<String, Object> resMap = new HashMap<String, Object>();
 		resMap.put("array", list);
 		return resMap;
@@ -68,32 +76,48 @@ public class MemoController {
 		if (null != ctgrId) {
 			mv.addObject("ctgrId", ctgrId);
 		}
+		// redirect시 ctgrId 재확인 필요
 		if (type == Memo.TYPE_NOTE) {
-			mv.setViewName("redirect:/?rightPage=/memo/goAddNote");
+			mv.setViewName("redirect:/?rightPage=/memo/goAddNote?ctgrId=" + ctgrId);
 		} else if (type == Memo.TYPE_TODO) {
-			mv.setViewName("memo/addTodo");
+			mv.setViewName("redirect:/?rightPage=/memo/goAddTodo?ctgrId=" + ctgrId);
 		}
 		return mv;
 	}
 
 	@RequestMapping(value = "/memo/goAddNote", method = RequestMethod.GET)
-	public String goAddNote(Long ctgrId) throws Exception {
-		String page = "/memo/addNote";
+	public ModelAndView goAddNote(Long ctgrId) throws Exception {
+		ModelAndView mv = new ModelAndView("/memo/addNote");
 		if (null != ctgrId) {
-			page += "ctgrId=" + ctgrId;
+			mv.addObject("ctgrId", ctgrId);
 		}
-
-		return page;
+		return mv;
+	}
+	
+	@RequestMapping(value = "/memo/goAddTodo", method = RequestMethod.GET)
+	public ModelAndView goAddTodo(Long ctgrId) throws Exception {
+		ModelAndView mv = new ModelAndView("/memo/addTodo");
+		if (null != ctgrId) {
+			mv.addObject("ctgrId", ctgrId);
+		}
+		return mv;
 	}
 
 	@RequestMapping(value = "/memo/saveNote", method = RequestMethod.POST)
-	public ModelAndView saveNote(@ModelAttribute Memo memo, HttpSession session) throws Exception {
+	public ModelAndView saveNote(@ModelAttribute Memo memo, Long ctgrId, HttpSession session) throws Exception {
 		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
 		if (null != authInfo) {
 			memo.setRegUserId(authInfo.getId());
 		}
+		Set<MemoShare> shares = new HashSet<MemoShare>();
+		User register = userSer.getUser(memo.getRegUserId());
+		
+		MemoShare ms = new MemoShare(register);
+		ms.setRegister(true);
+		ms.setCtgrId(ctgrId);
+		shares.add(ms);
 
-		service.addMemo(memo);
+		service.addMemo(memo, ms);
 		ModelAndView mv = new ModelAndView("redirect:/");
 		return mv;
 	}

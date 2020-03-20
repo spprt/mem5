@@ -16,7 +16,7 @@
 
 #memolist-wrapper {
   min-height: 100vh;
-  margin-left: -15rem;
+	margin-left: 0rem;
   -webkit-transition: margin .25s ease-out;
   -moz-transition: margin .25s ease-out;
   -o-transition: margin .25s ease-out;
@@ -28,15 +28,8 @@
     margin-left: 0;
   }
   #wrapper.toggled #sidebar-wrapper {
-    margin-left: -15rem;
-  }
-  #wrapper.sub.toggled #sidebar-wrapper {
     margin-left: -30rem;
   }
-}
-
-#wrapper.sub #memolist-wrapper {
-  margin-left: 0rem;
 }
 
 .sidebar-heading {
