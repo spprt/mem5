@@ -14,6 +14,8 @@ $(function(){
 	let rightPage = '${param.rightPage}';
 	if (rightPage) {
 		loadRightArea(rightPage)
+	} else {
+		loadRightArea('${pageContext.request.contextPath}/memo/main');
 	}
 	
 	<%--카테고리 목록--%>
@@ -167,9 +169,9 @@ function memoSearch(){
     <div id="page-content-wrapper">
     <%@ include file="/WEB-INF/views/includes/04_nav.jsp" %>
       <div class="container-fluid" id="rightContainer">
-        <h1 class="mt-4">Mem<b>5</b></h1>
-        <p>The starting state of the menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will change.</p>
-        <p>Make sure to keep all page content within the <code>#page-content-wrapper</code>. The top navbar is optional, and just for demonstration. Just create an element with the <code>#menu-toggle</code> ID which will toggle the menu when clicked.</p>
+<!--         <h1 class="mt-4">Mem<b>5</b></h1> -->
+<!--         <p>The starting state of the menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will change.</p> -->
+<!--         <p>Make sure to keep all page content within the <code>#page-content-wrapper</code>. The top navbar is optional, and just for demonstration. Just create an element with the <code>#menu-toggle</code> ID which will toggle the menu when clicked.</p> -->
       </div>
     </div>
     <!-- /#page-content-wrapper -->

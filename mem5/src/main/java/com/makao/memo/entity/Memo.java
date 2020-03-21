@@ -68,10 +68,10 @@ public class Memo implements Serializable {
 	@Column(name = "type")
 	private int type;
 
-	@OneToMany(mappedBy = "memo", fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+	@OneToMany(mappedBy = "memo", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
 	private Collection<MemoTodo> todos;
 
-	@OneToMany(mappedBy = "memo", fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+	@OneToMany(mappedBy = "memo", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
 	private Collection<MemoShare> shares;
 
 	@ElementCollection(fetch = FetchType.EAGER)

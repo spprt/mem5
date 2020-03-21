@@ -48,6 +48,18 @@ public class MemoController {
 	@Autowired
 	private CategoryService ctgrService;
 
+	@RequestMapping(value = "/memo/main", method = RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView goMain(HttpSession session) throws Exception {
+		ModelAndView mv = new ModelAndView("memo/main");
+		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
+		if (null != authInfo) {
+			List<Memo> list = service.getPtlList(authInfo.getId());
+			mv.addObject("list", list);
+		}
+		return mv;
+	}
+
 	@RequestMapping(value = "/memo/allMyList", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public Map<String, Object> getAllMyMemo(HttpSession session) throws Exception {
