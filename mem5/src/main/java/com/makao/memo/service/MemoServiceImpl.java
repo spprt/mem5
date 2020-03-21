@@ -60,6 +60,11 @@ public class MemoServiceImpl implements MemoService {
 	}
 
 	@Override
+	public List<MemoTodo> getTodoList(Long memoId) {
+		return todoDAO.getTodoList(memoId);
+	}
+
+	@Override
 	public void addTodo(MemoTodo todo) {
 		todoDAO.addTodo(todo);
 	}
