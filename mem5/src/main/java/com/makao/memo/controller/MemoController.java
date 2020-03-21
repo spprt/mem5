@@ -47,7 +47,7 @@ public class MemoController {
 
 	@Autowired
 	private CategoryService ctgrService;
-
+	
 	@RequestMapping(value = "/memo/main", method = RequestMethod.GET)
 	@ResponseBody
 	public ModelAndView goMain(HttpSession session) throws Exception {
@@ -64,9 +64,11 @@ public class MemoController {
 	@ResponseBody
 	public Map<String, Object> getAllMyMemo(HttpSession session) throws Exception {
 		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
-		List<Memo> list = service.getAllMemo(authInfo.getId());
 		Map<String, Object> resMap = new HashMap<String, Object>();
-		resMap.put("array", list);
+		if (null != authInfo) {
+			List<Memo> list = service.getAllMemo(authInfo.getId());
+			resMap.put("array", list);
+		}
 		return resMap;
 	}
 

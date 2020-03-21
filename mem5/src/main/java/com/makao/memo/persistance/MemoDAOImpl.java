@@ -62,7 +62,7 @@ public class MemoDAOImpl implements MemoDAO {
 		query.setParameter("ctgrId", ctgrId);
 		return query.list();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Memo> getPtlList(Long userId) {
