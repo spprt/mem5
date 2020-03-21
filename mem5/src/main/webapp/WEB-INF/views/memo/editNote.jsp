@@ -24,6 +24,7 @@ function formsubmit(f){
     
 	f.method = 'post';
 	f.submit();
+	
 }
 </script>
 <body>
