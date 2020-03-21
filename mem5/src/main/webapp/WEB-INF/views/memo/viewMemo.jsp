@@ -9,8 +9,12 @@
 <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm" style="background: #005dc1;">
     <div class="lh-100">
       <h6 class="mb-0 text-white lh-100">${memo.title}</h6>
-      <small><fmt:formatDate value="${memo.regDate }" pattern="yyyy-MM-dd HH:mm:ss "/> 
+      <small>
+      	<fmt:formatDate value="${memo.regDate }" pattern="yyyy-MM-dd HH:mm:ss "/> 
       </small>
+      <c:if test="${not empty ctgrName}">
+      	<p><small>${ctgrName}</small></p>
+      </c:if>
     </div>
   </div>
 	<div class="my-3 p-3 bg-white rounded shadow-sm">

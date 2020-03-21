@@ -24,6 +24,7 @@ import com.makao.memo.entity.Memo;
 import com.makao.memo.entity.Memo.Tag;
 import com.makao.memo.entity.MemoShare;
 import com.makao.memo.entity.User;
+import com.makao.memo.service.CategoryService;
 import com.makao.memo.service.MemoService;
 import com.makao.memo.service.UserService;
 import com.makao.memo.util.AuthInfo;
@@ -43,6 +44,9 @@ public class MemoController {
 
 	@Autowired
 	private UserService userSer;
+
+	@Autowired
+	private CategoryService ctgrService;
 
 	@RequestMapping(value = "/memo/allMyList", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
@@ -96,7 +100,7 @@ public class MemoController {
 		}
 		return mv;
 	}
-	
+
 	@RequestMapping(value = "/memo/goAddTodo", method = RequestMethod.GET)
 	public ModelAndView goAddTodo(Long ctgrId) throws Exception {
 		ModelAndView mv = new ModelAndView("/memo/addTodo");
@@ -114,7 +118,7 @@ public class MemoController {
 		}
 		Set<MemoShare> shares = new HashSet<MemoShare>();
 		User register = userSer.getUser(memo.getRegUserId());
-		
+
 		MemoShare ms = new MemoShare(register);
 		ms.setRegister(true);
 		ms.setCtgrId(ctgrId);
@@ -128,34 +132,50 @@ public class MemoController {
 	@RequestMapping(value = "/memo/view", method = RequestMethod.GET)
 	public ModelAndView viewMemo(Long id, HttpSession session) throws Exception {
 		Memo memo = service.readMemo(id);
+		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
 		String viewType = "memo/viewMemo";
 		if (memo.getType() == Memo.TYPE_TODO) {
 			viewType = "memo/viewTodo";
 		}
+		// 분류명 가져오기
+		List<MemoShare> shares = memo.getShares().stream()
+				.filter(ms -> ms.getMemo().getId() == id && ms.getUserId() == authInfo.getId())
+				.collect(Collectors.toList());
+		Long ctgrId = -1L;
+		if (!shares.isEmpty()) {
+			ctgrId = shares.get(0).getCtgrId();
+		}
+
+		String ctgrName = "";
+		if (ctgrId != -1L) {
+			ctgrName = ctgrService.getCategory(ctgrId).getCtgrName();
+		}
+
 		ModelAndView mv = new ModelAndView(viewType);
 		mv.addObject("memo", memo);
+		mv.addObject("ctgrName", ctgrName);
 		return mv;
 	}
-	
+
 	@RequestMapping(value = "/memo/goEditNote", method = RequestMethod.GET)
-	public ModelAndView goEdit(Long id, HttpSession session) throws Exception{
+	public ModelAndView goEdit(Long id, HttpSession session) throws Exception {
 		Memo memo = service.readMemo(id);
 		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
 		ModelAndView mv = new ModelAndView();
 		if (null != authInfo && authInfo.getId() == memo.getRegUserId()) {
 			mv.addObject("memo", memo);
 			List<Tag> tags = memo.getTags();
-			String tagStr = tags.stream().map(t->t.getTag()).collect(Collectors.joining(","));
+			String tagStr = tags.stream().map(t -> t.getTag()).collect(Collectors.joining(","));
 			mv.addObject("tagStr", tagStr);
 //			mv.setViewName("redirect:/?rightPage=/memo/editNote");
 			mv.setViewName("memo/editNote");
 		} else {
 			mv.setViewName("redirect:/");
 		}
-		
+
 		return mv;
 	}
-	
+
 	@RequestMapping(value = "/memo/saveEditNote", method = RequestMethod.POST)
 	public ModelAndView editNote(@ModelAttribute Memo memo, HttpSession session) throws Exception {
 //		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
