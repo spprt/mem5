@@ -14,6 +14,8 @@ $(function(){
 	let rightPage = '${param.rightPage}';
 	if (rightPage) {
 		loadRightArea(rightPage)
+	} else {
+		loadRightArea('${pageContext.request.contextPath}/memo/main');
 	}
 	
 	<%--카테고리 목록--%>
@@ -57,7 +59,8 @@ function clickCtgr(categoryId) {
 		if (result.array && result.array.length > 0) {
 			let arr = result.array;
 			for (i = 0; i < arr.length; i++) {
-				var a = $('<a class="list-group-item list-group-item-action bg-light memoItem">').appendTo('#memoList');
+				var div = $('<div class="list-group-item list-group-item-action bg-light memoItem" draggable="true" ondragstart="drag(event)" >');
+				var a = $('<a>').appendTo(div);
 				var type = arr[i][2];
 				if (type == <%= com.makao.memo.entity.Memo.TYPE_NOTE %>) {
 					$('<i class="fas fa-sticky-note"></i>').appendTo(a);
@@ -65,13 +68,12 @@ function clickCtgr(categoryId) {
 					$('<i class="fas fa-list-ul"></i>').appendTo(a);
 				}
 				$('<span class="title">').css('padding-left', '5px').attr({'title': arr[i][1]}).text(arr[i][1]).appendTo(a);
-				/* a.attr('data-id', arr[i][0]);
-				a.attr('onclick', 'viewMemo(this);'); */
 				
-				a.attr({'data-id': arr[i][0], 'data-title' : arr[i][1], 'onclick': 'viewMemo(this);'});
+				div.attr({'data-id': arr[i][0], 'data-title' : arr[i][1], 'onclick': 'viewMemo(this);'}).appendTo('#memoList');
 			}
 		}
 	}).fail(function(result) {
+		$('<div class="list-group-item list-group-item-action bg-light">').text('표시할 목록이 없습니다.').appendTo('#memoList');
 		console.error(result);
 	});
 	selectedCtgrId = categoryId;
@@ -143,13 +145,29 @@ function memoSearch(){
 
     for (i = 0;i < item.length;i++) {
       title = item[i].getElementsByClassName("title");
-      if(title[0].innerHTML.toUpperCase().indexOf(value) > -1){
+      if (title[0].innerHTML.toUpperCase().indexOf(value) > -1) {
         item[i].style.display = 'block';
-      }else{
+      } else {
         item[i].style.display = 'none';
       }
     }
-  }
+}
+<%-- 메모 분류이동 Drag Drop--%>
+function allowDrop(ev) {
+  ev.preventDefault();
+}
+
+function drag(ev) {
+  ev.dataTransfer.setData("text", ev.target.id);
+  console.log(ev.dataset)
+}
+
+function drop(ev) {
+  ev.preventDefault();
+  console.log(ev.dataTransfer)
+  var data = ev.dataTransfer.getData("text");
+  console.log(data)
+}
 </script>
 <body>
   <div class="d-flex" id="wrapper">
@@ -167,9 +185,9 @@ function memoSearch(){
     <div id="page-content-wrapper">
     <%@ include file="/WEB-INF/views/includes/04_nav.jsp" %>
       <div class="container-fluid" id="rightContainer">
-        <h1 class="mt-4">Mem<b>5</b></h1>
-        <p>The starting state of the menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will change.</p>
-        <p>Make sure to keep all page content within the <code>#page-content-wrapper</code>. The top navbar is optional, and just for demonstration. Just create an element with the <code>#menu-toggle</code> ID which will toggle the menu when clicked.</p>
+<!--         <h1 class="mt-4">Mem<b>5</b></h1> -->
+<!--         <p>The starting state of the menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will change.</p> -->
+<!--         <p>Make sure to keep all page content within the <code>#page-content-wrapper</code>. The top navbar is optional, and just for demonstration. Just create an element with the <code>#menu-toggle</code> ID which will toggle the menu when clicked.</p> -->
       </div>
     </div>
     <!-- /#page-content-wrapper -->
