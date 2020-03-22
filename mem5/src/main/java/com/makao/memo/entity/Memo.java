@@ -5,6 +5,7 @@ import java.util.Collection;
 // github.com/spprt/mem5.git
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -48,7 +49,7 @@ public class Memo implements Serializable {
 
 	@Generated(GenerationTime.INSERT)
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "reg_date", insertable = false, updatable=false)
+	@Column(name = "reg_date", insertable = false, updatable = false)
 	private Date regDate;
 
 	@Generated(GenerationTime.ALWAYS)
@@ -69,13 +70,13 @@ public class Memo implements Serializable {
 	private int type;
 
 	@OneToMany(mappedBy = "memo", fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
-	private Collection<MemoTodo> todos;
+	private Set<MemoTodo> todos;
 
 	@OneToMany(mappedBy = "memo", fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
-	private Collection<MemoShare> shares;
+	private Set<MemoShare> shares;
 
 	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name = "memo_tag", joinColumns = @JoinColumn(name = "memoid")) 
+	@CollectionTable(name = "memo_tag", joinColumns = @JoinColumn(name = "memoid"))
 	@OrderColumn(name = "idx") // 지정한 컬럼에 리스트의 인덱스 값 저장
 	private List<Tag> tags;
 
@@ -164,51 +165,45 @@ public class Memo implements Serializable {
 		return todos;
 	}
 
-	public void setTodos(Collection<MemoTodo> todos) {
+	public void setTodos(Set<MemoTodo> todos) {
 		this.todos = todos;
 	}
 
-	public List<Tag> getTags()
-	{
+	public Set<MemoShare> getShares() {
+		return shares;
+	}
+
+	public void setShares(Set<MemoShare> shares) {
+		this.shares = shares;
+	}
+
+	public List<Tag> getTags() {
 		return tags;
 	}
 
-	public void setTags(List<Tag> tags)
-	{
+	public void setTags(List<Tag> tags) {
 		this.tags = tags;
 	}
 
 	@Embeddable
-	@Table(name="memo_tag")
-	public static class Tag
-	{
-		@Column(name="tag")
+	@Table(name = "memo_tag")
+	public static class Tag {
+		@Column(name = "tag")
 		String tag;
 
-		public Tag()
-		{
+		public Tag() {
 		}
 
-		public Tag(Tag tag)
-		{
+		public Tag(Tag tag) {
 			this.tag = tag.getTag();
 		}
-		
-		public String getTag()
-		{
+
+		public String getTag() {
 			return tag;
 		}
-		public void setTag(String tag)
-		{
+
+		public void setTag(String tag) {
 			this.tag = tag;
 		}
-	}
-
-	public Collection<MemoShare> getShares() {
-		return shares;
-	}
-
-	public void setShares(Collection<MemoShare> shares) {
-		this.shares = shares;
 	}
 }

@@ -19,6 +19,8 @@ public interface MemoDAO
 	
 	public List<Memo> getCtgrMemo(Long userId, Long ctgrId);
 	
+	public List<Memo> getPtlList(Long userId);
+	
 	public void updateTodo(Long memoId, boolean checked);
 	
 	public void addShare(Memo memo, MemoShare share);

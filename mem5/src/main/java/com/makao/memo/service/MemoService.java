@@ -20,6 +20,10 @@ public interface MemoService {
 
 	public List<Memo> getCtgrMemo(Long userId, Long ctgrId);
 
+	public List<Memo> getPtlList(Long userId);
+
+	public List<MemoTodo> getTodoList(Long memoId);
+
 	public void addTodo(MemoTodo todo);
 
 	public void checkTodo(Long todoId, boolean checked);

@@ -2,9 +2,12 @@ package com.makao.memo.persistance;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -58,6 +61,18 @@ public class MemoDAOImpl implements MemoDAO {
 		query.setParameter("userId", userId);
 		query.setParameter("ctgrId", ctgrId);
 		return query.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Memo> getPtlList(Long userId) {
+		Criteria criteria = getSession().createCriteria(Memo.class);
+		criteria.setMaxResults(12);
+		criteria.setFirstResult(1);
+		criteria.add(Restrictions.eq("regUserId", userId));
+		criteria.addOrder(Order.desc("modDate"));
+
+		return criteria.list();
 	}
 
 	@Override
