@@ -24,4 +24,6 @@ public interface MemoDAO
 	public void updateTodo(Long memoId, boolean checked);
 	
 	public void addShare(Memo memo, MemoShare share);
+	
+	public void updateShare(MemoShare share);
 }

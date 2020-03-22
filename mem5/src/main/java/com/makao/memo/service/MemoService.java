@@ -31,4 +31,6 @@ public interface MemoService {
 	public void allCheckTodo(Long memoId, boolean checked);
 
 	public void delTodo(Long todoId);
+	
+	public void updateShare(MemoShare share);
 }

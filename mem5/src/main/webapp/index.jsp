@@ -59,7 +59,7 @@ function clickCtgr(categoryId) {
 		if (result.array && result.array.length > 0) {
 			let arr = result.array;
 			for (i = 0; i < arr.length; i++) {
-				var div = $('<div class="list-group-item list-group-item-action bg-light memoItem" draggable="true" ondragstart="drag(event)" >');
+				var div = $('<div class="list-group-item list-group-item-action bg-light memoItem" draggable="true" ondragstart="dragMemo(event)" >');
 				var a = $('<a>').appendTo(div);
 				var type = arr[i][2];
 				if (type == <%= com.makao.memo.entity.Memo.TYPE_NOTE %>) {
@@ -123,7 +123,6 @@ function viewMemo(obj) {
 	loadRightArea('${pageContext.request.contextPath}/memo/view?id=' + id)
 }
 function getMemoList(ctgrId) {
-	console.log(ctgrId);
 	var url = (ctgrId == -1) ? '/memo/allMyList' : '/memo/myList';
 	return $.ajax({
 		type: 'get',
@@ -153,20 +152,40 @@ function memoSearch(){
     }
 }
 <%-- 메모 분류이동 Drag Drop--%>
-function allowDrop(ev) {
+function allowDropMemo(ev) {
   ev.preventDefault();
 }
 
-function drag(ev) {
-  ev.dataTransfer.setData("text", ev.target.id);
-  console.log(ev.dataset)
+function dragMemo(ev) {
+  ev.dataTransfer.setData("id", ev.target.dataset.id);
 }
 
-function drop(ev) {
+function dropMemo(ev) {
   ev.preventDefault();
-  console.log(ev.dataTransfer)
-  var data = ev.dataTransfer.getData("text");
-  console.log(data)
+  const memoId = ev.dataTransfer.getData("id");
+  const ctgrId = ev.target.dataset.id;
+  if (ctgrId != -1) {
+	  moveMemo(memoId, ctgrId).done(function(r){
+		  // 클라이언트단에서 메모 리스트에서 분류변경된 메모는 빼준다(단, 현재 선택된 분류가 전체보기 일 경우는 빼지않음)
+		  if (r) {
+			  if (r.result == 'success' && selectedCtgrId != -1) {
+				  $('.memoItem[data-id='+memoId+']').remove();
+			  }
+		  }
+	  }).fail(function(result) {
+		  console.error('move Memo Error:', result);
+	  });
+  }
+}
+
+function moveMemo(memoId, ctgrId) {
+	return $.ajax({
+				type: 'get',
+				data: {memoId : memoId, ctgrId: ctgrId},
+				dataType: 'json',
+				contentType: 'application/json',
+				url: '${pageContext.request.contextPath}/memo/move'
+			});
 }
 </script>
 <body>

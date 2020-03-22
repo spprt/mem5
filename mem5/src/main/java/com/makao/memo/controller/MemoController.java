@@ -47,7 +47,7 @@ public class MemoController {
 
 	@Autowired
 	private CategoryService ctgrService;
-	
+
 	@RequestMapping(value = "/memo/main", method = RequestMethod.GET)
 	@ResponseBody
 	public ModelAndView goMain(HttpSession session) throws Exception {
@@ -197,5 +197,36 @@ public class MemoController {
 		service.updateMemo(memo);
 		ModelAndView mv = new ModelAndView("redirect:/");
 		return mv;
+	}
+
+	@RequestMapping(value = "/memo/move", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public Map<String, String> move(Long memoId, Long ctgrId, HttpSession session) throws Exception {
+		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
+		Long authId = authInfo.getId();
+		Memo memo = service.readMemo(memoId);
+		List<MemoShare> shares = memo.getShares().stream()
+				.filter(s -> s.getUserId() == authId && s.getMemo().getId() == memoId).collect(Collectors.toList());
+		Map<String, String> result = new HashMap<String, String>();
+		if(shares.size() > 0) {
+			MemoShare ms = shares.get(0);
+			if (ms.getCtgrId() != ctgrId) {
+				ms.setCtgrId(ctgrId);
+				service.updateShare(ms);
+				result.put("result", "success");
+			} else {
+				result.put("result", "same Category");
+			}
+		} else {
+			User register = userSer.getUser(authId);
+			MemoShare ms = new MemoShare(register);
+			ms.setRegister(memo.getRegUserId() == authId);
+			ms.setCtgrId(ctgrId);
+			ms.setMemo(memo);
+			service.updateShare(ms);
+			result.put("result", "success");
+		}
+		
+		return result;
 	}
 }

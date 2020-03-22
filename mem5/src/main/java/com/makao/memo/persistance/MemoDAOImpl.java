@@ -87,6 +87,10 @@ public class MemoDAOImpl implements MemoDAO {
 	@Override
 	public void addShare(Memo memo, MemoShare share) {
 		getSession().save(share);
+	}
 
+	@Override
+	public void updateShare(MemoShare share) {
+		getSession().saveOrUpdate(share);
 	}
 }

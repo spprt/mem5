@@ -83,4 +83,9 @@ public class MemoServiceImpl implements MemoService {
 	public void delTodo(Long todoId) {
 		todoDAO.delTodo(todoId);
 	}
+
+	@Override
+	public void updateShare(MemoShare share) {
+		memoDAO.updateShare(share);
+	}
 }
