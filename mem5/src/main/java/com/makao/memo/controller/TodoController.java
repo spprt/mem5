@@ -60,4 +60,10 @@ public class TodoController {
 		service.delTodo(id);
 		return "";
 	}
+
+	@RequestMapping(value = "/memo/todo/sort", method = RequestMethod.GET)
+	public String sort(String ids, Long memoId, HttpSession session) throws Exception {
+		service.sortTodo(memoId, ids);
+		return "";
+	}
 }

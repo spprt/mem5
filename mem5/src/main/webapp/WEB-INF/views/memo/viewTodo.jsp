@@ -51,8 +51,18 @@ li.ui-state-default:last-child {
 </style>
 <script>
 $(function(){
-	$("#sortable").sortable();
-	$("#sortable").disableSelection();
+	$("#todo-sortable").sortable({
+		stop: function(event, ui) {
+			var $this = $(this);
+			var lis = $this.find('.ui-state-default');
+			var ids = [];
+			for (var i = 0; i < lis.length; i++) {
+				ids.push(lis[i].getAttribute('data-id'));
+			}
+			sortTodo(ids.join(','));
+        }
+	});
+	$("#todo-sortable").disableSelection();
 
 	countTodos();
 
@@ -79,7 +89,7 @@ $(function(){
 		}
 	});
 	// mark task as done
-	$('.todolist').on('change', '#sortable li input[type="checkbox"]', function() {
+	$('.todolist').on('change', '#todo-sortable li input[type="checkbox"]', function() {
 		doneTodo(this);
 	});
 
@@ -90,8 +100,8 @@ $(function(){
 });
 //count tasks
 function countTodos() {
-	var allCount = $("#sortable li").length;
-	var doneCount = $("#sortable li").not('.done').length;
+	var allCount = $("#todo-sortable li").length;
+	var doneCount = $("#todo-sortable li").not('.done').length;
 	$('.count-todos').html(doneCount + ' of ' + allCount);
 }
 
@@ -116,7 +126,7 @@ function createTodo(text) {
 					</div>');
 				li.attr('data-id', result.id);
 				li.find('.checkSpan').text(text);
-				li.appendTo($('#sortable'));
+				li.appendTo($('#todo-sortable'));
 				$('.add-todo').val('');
 			}
 		}		
@@ -145,7 +155,7 @@ function doneTodo(element) {
 }
 
 function allDoneTodo() {
-	$('#sortable li').each(function() {
+	$('#todo-sortable li').each(function() {
 		var $this = $(this);
 		$this.addClass('done');
 		$this.find('input').attr('checked', 'true');
@@ -155,7 +165,7 @@ function allDoneTodo() {
 }
 
 function allDoingTodo() {
-	$('#sortable li').each(function() {
+	$('#todo-sortable li').each(function() {
 		var $this = $(this);
 		$this.removeClass('done');
 		$this.find('input').get(0).checked = false;
@@ -193,6 +203,18 @@ function removeItem(element) {
 	$element.closest('li').remove();
 	countTodos();
 }
+function sortTodo(ids) {
+	var memoId = ${memo.id};
+	<%--서버에서 일괄 처리--%>
+	$.ajax({
+		type: "get",
+		data: {memoId:memoId, ids:ids},
+		url: "${pageContext.request.contextPath}/memo/todo/sort",
+		success : function(result) {
+			alert('success');
+		}		
+	});
+}
 </script>
 </head>
 <body>
@@ -214,7 +236,7 @@ function removeItem(element) {
 				<button id="checkAllDone" class="btn btn-primary">Mark all as done</button>
 				<button id="checkAllDoing" class="btn btn-primary">Mark all as doing</button>
 				<hr>
-				<ul id="sortable" class="list-unstyled">
+				<ul id="todo-sortable" class="list-unstyled">
 					<c:forEach var="todo" items="${memo.todos}">
 						<li class="ui-state-default <c:if test="${todo.complete == true}">done</c:if>" data-id="${todo.id}">
 						<div class="checkbox">

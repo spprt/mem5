@@ -33,4 +33,6 @@ public interface MemoService {
 	public void delTodo(Long todoId);
 	
 	public void updateShare(MemoShare share);
+	
+	public void sortTodo(Long memoId, String ids);
 }

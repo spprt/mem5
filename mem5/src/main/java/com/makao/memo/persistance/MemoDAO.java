@@ -26,4 +26,6 @@ public interface MemoDAO
 	public void addShare(Memo memo, MemoShare share);
 	
 	public void updateShare(MemoShare share);
+
+	public void sortTodo(Long id, int index, Long memoId);
 }

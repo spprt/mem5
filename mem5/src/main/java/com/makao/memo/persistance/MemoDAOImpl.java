@@ -93,4 +93,14 @@ public class MemoDAOImpl implements MemoDAO {
 	public void updateShare(MemoShare share) {
 		getSession().saveOrUpdate(share);
 	}
+
+	@Override
+	public void sortTodo(Long id, int index, Long memoId) {
+		String jpql = "UPDATE MemoTodo SET idx = :index where id = :id AND memo.id = :memoId";
+		Query query = getSession().createQuery(jpql);
+		query.setParameter("index", index);
+		query.setParameter("id", id);
+		query.setParameter("memoId", memoId);
+		query.executeUpdate();
+	}
 }

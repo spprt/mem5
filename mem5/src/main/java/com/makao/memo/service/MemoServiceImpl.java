@@ -88,4 +88,15 @@ public class MemoServiceImpl implements MemoService {
 	public void updateShare(MemoShare share) {
 		memoDAO.updateShare(share);
 	}
+
+	@Override
+	public void sortTodo(Long memoId, String ids) {
+		if (ids != null) {
+			String[] idxs = ids.split(",");
+			for (int i = 0; i < idxs.length; i++) {
+				Long id = Long.valueOf(idxs[i]);
+				memoDAO.sortTodo(id, i, memoId);
+			}
+		}
+	}
 }
