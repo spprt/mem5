@@ -25,6 +25,7 @@
 <script src="${pageContext.request.contextPath}/resources/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/fontawesome.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/solid.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/jquery-ui.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/jquery.slimscroll.min.js"></script>
 
 <title>mem5</title>

@@ -61,4 +61,9 @@ public class CategoryServiceImpl implements CategoryService {
 		return categoryDAO.getMaxCount(parentId, userId);
 	}
 
+	@Override
+	public void changeIdx(Long ctgrId, int idx) {
+		categoryDAO.changeIdx(ctgrId, idx);
+	}
+
 }

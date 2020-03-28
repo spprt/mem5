@@ -21,4 +21,6 @@ public interface CategoryDAO
 	public List<Category> getRootCategory(Long userId);
 	
 	public int getMaxCount(Long parentId, Long userId);
+	
+	public void changeIdx(Long ctgrId, int idx);
 }

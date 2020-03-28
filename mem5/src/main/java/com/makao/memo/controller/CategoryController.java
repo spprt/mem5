@@ -1,15 +1,19 @@
 package com.makao.memo.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.makao.memo.entity.Category;
@@ -88,5 +92,22 @@ public class CategoryController {
 		List<Category> ctgr = service.getChildrenCategory(parentId);
 
 		return ctgr;
+	}
+
+	@RequestMapping(value = "/category/changeIdx", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public Map<String, String> changeIdx(Long ctgrId, int idx, HttpSession session) throws Exception {
+		Map<String, String> result = new HashMap<String, String>();
+
+		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
+		Category ctgr = (Category) service.getCategory(ctgrId);
+		if (authInfo.getId() == ctgr.getUserId()) {
+			service.changeIdx(ctgrId, idx);
+			result.put("result", "success");
+		} else {
+			result.put("result", "auth fail");
+		}
+
+		return result;
 	}
 }

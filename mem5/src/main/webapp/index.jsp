@@ -76,6 +76,8 @@ function clickCtgr(categoryId) {
 				
 				div.attr({'data-id': arr[i][0], 'data-title' : arr[i][1], 'onclick': 'viewMemo('+arr[i][0]+');'}).appendTo('#memoList');
 			}
+		} else {
+			$('<div class="list-group-item list-group-item-action bg-light">').text('표시할 목록이 없습니다.').appendTo('#memoList');
 		}
 	}).fail(function(result) {
 		$('<div class="list-group-item list-group-item-action bg-light">').text('표시할 목록이 없습니다.').appendTo('#memoList');

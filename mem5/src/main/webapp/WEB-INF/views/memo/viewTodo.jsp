@@ -4,7 +4,6 @@
 <html lang="ko">
 <head>
 <%@ include file="/WEB-INF/views/includes/00_head.jsp"%>
-<script src="${pageContext.request.contextPath}/resources/js/jquery-ui.min.js"></script>
 <style>
 .todolist {
 	background-color: #FFF;
