@@ -40,6 +40,11 @@ $(function(){
 			selectCtgr('${param.ctgrId}');
 		}
 	});
+	
+	setSlimScroll();
+	window.addEventListener('resize', function() {
+		setSlimScroll();
+	});
 });
 <%-- Category Selected Manage Start --%>
 var selectedCtgrId;
@@ -186,6 +191,17 @@ function moveMemo(memoId, ctgrId) {
 				contentType: 'application/json',
 				url: '${pageContext.request.contextPath}/memo/move'
 			});
+}
+<%-- slimscroll --%>
+function areaSlimScroll(headerSelectorId, slimDivId) {
+	const headerHeight = document.getElementById(headerSelectorId).offsetHeight;
+	let slimHeight = window.innerHeight - headerHeight;
+	$('#' + slimDivId).slimScroll({height: slimHeight});
+}
+function setSlimScroll() {
+	areaSlimScroll('sidebarHeader', 'myCtgr');
+	areaSlimScroll('memoHeader', 'memoList');
+	areaSlimScroll('rightHeader', 'rightContainer');
 }
 </script>
 <body>

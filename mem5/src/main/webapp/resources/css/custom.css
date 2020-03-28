@@ -81,3 +81,17 @@ a.bg-light.selected {
 #memolist-wrapper .list-group-item {
 	cursor: pointer;
 }
+
+.list-group-item {
+	overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+body {
+	overflow:hidden;
+}
+
+#sidebar-wrapper .list-group {
+	max-width: 15rem;
+}

@@ -1,5 +1,5 @@
 <div class="bg-light border-right" id="category-wrapper">
-	<div class="sidebar-heading">
+	<div class="sidebar-heading" id="sidebarHeader">
 		mem5
 		<a href="#" class="ctgrAdd" data-toggle="modal" data-target="#ctgr-modal"><i class="fas fa-plus"></i></a>
 	</div>

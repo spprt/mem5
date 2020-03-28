@@ -10,8 +10,8 @@
 				<a href="#" class="list-group-item list-group-item-action bg-light selected">전체보기</a>
 			</div>
 			<c:forEach items="${list}" var="item">
-				<div id="ctgr" data-id="${item.id}" class="item" style="position:relative;" ondrop="dropMemo(event)" ondragover="allowDropMemo(event)">
-					<a href="#" data-id="${item.id}" class="list-group-item list-group-item-action bg-light">${item.ctgrName}</a>
+				<div id="ctgr" data-id="${item.id}" class="item" style="position:relative;" ondrop="dropMemo(event)" ondragover="allowDropMemo(event)" >
+					<a href="#" data-id="${item.id}" class="list-group-item list-group-item-action bg-light" title="${item.ctgrName}">${item.ctgrName}</a>
 					<span class="settingCtgr" onclick="settingCtgr('${item.id}', '${item.ctgrName}');" data-id="${item.id}"><i class="fas fa-pencil-alt"></i></span>
 				</div>
 			</c:forEach>
