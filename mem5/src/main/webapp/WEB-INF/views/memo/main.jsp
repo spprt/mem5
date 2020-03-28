@@ -20,7 +20,7 @@
 		<c:choose>
 			<c:when test="${empty authInfo}">
 				<!-- css처리 -->
-				<div>로그인해 주세요.</div>
+				<div>로그인해 주세요. </div>
 			</c:when>
 			<c:otherwise>
 				<c:forEach items="${list}" var="item">
