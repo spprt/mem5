@@ -64,8 +64,8 @@ function clickCtgr(categoryId) {
 		if (result.array && result.array.length > 0) {
 			let arr = result.array;
 			for (i = 0; i < arr.length; i++) {
-				var div = $('<div class="list-group-item list-group-item-action bg-light memoItem" draggable="true" ondragstart="dragMemo(event)" >');
-				var a = $('<a>').appendTo(div);
+				var div = $('<div class="memoItem" draggable="true" ondragstart="dragMemo(event)" >');
+				var a = $('<a class="list-group-item list-group-item-action bg-light">').appendTo(div);
 				var type = arr[i][2];
 				if (type == <%= com.makao.memo.entity.Memo.TYPE_NOTE %>) {
 					$('<i class="fas fa-sticky-note"></i>').appendTo(a);
@@ -74,7 +74,7 @@ function clickCtgr(categoryId) {
 				}
 				$('<span class="title">').css('padding-left', '5px').attr({'title': arr[i][1]}).text(arr[i][1]).appendTo(a);
 				
-				div.attr({'data-id': arr[i][0], 'data-title' : arr[i][1], 'onclick': 'viewMemo(this);'}).appendTo('#memoList');
+				div.attr({'data-id': arr[i][0], 'data-title' : arr[i][1], 'onclick': 'viewMemo('+arr[i][0]+');'}).appendTo('#memoList');
 			}
 		}
 	}).fail(function(result) {
@@ -123,8 +123,7 @@ function deleteCtgr(obj) {
 	frm.method = "get";
 	frm.submit();
 }
-function viewMemo(obj) {
-	var id = $(obj).data('id');
+function viewMemo(id) {
 	loadRightArea('${pageContext.request.contextPath}/memo/view?id=' + id)
 }
 function getMemoList(ctgrId) {

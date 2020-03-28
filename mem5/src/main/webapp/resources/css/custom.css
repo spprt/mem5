@@ -93,5 +93,6 @@ body {
 }
 
 #sidebar-wrapper .list-group {
+	min-width: 15rem;
 	max-width: 15rem;
 }
