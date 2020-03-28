@@ -2,12 +2,9 @@ package com.makao.memo.persistance;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -66,13 +63,15 @@ public class MemoDAOImpl implements MemoDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Memo> getPtlList(Long userId) {
-		Criteria criteria = getSession().createCriteria(Memo.class);
-		criteria.setMaxResults(12);
-		criteria.setFirstResult(1);
-		criteria.add(Restrictions.eq("regUserId", userId));
-		criteria.addOrder(Order.desc("modDate"));
-
-		return criteria.list();
+//		String jpql = "FROM Memo m, MemoShare s where s.userId = :userId AND s.memo.id = m.id";
+//		String jpql = "SELECT m.id, m.title, m.type, m.regDate, m.modDate, m.content FROM Memo m, MemoShare s where s.userId = :userId AND s.memo.id = m.id";
+		String jpql = "SELECT m FROM Memo m, MemoShare s where s.userId = :userId AND s.memo.id = m.id";
+//		String jpql = "FROM Memo m where m.regUserId = :userId";
+		Query query = getSession().createQuery(jpql);
+		query.setParameter("userId", userId);
+		query.setFirstResult(0);
+		query.setMaxResults(12);
+		return query.list();
 	}
 
 	@Override

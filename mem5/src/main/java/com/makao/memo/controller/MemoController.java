@@ -54,8 +54,7 @@ public class MemoController {
 		ModelAndView mv = new ModelAndView("memo/main");
 		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
 		if (null != authInfo) {
-			List<Memo> list = service.getPtlList(authInfo.getId());
-			mv.addObject("list", list);
+			mv.addObject("list", service.getPtlList(authInfo.getId()));
 		}
 		return mv;
 	}
@@ -208,7 +207,7 @@ public class MemoController {
 		List<MemoShare> shares = memo.getShares().stream()
 				.filter(s -> s.getUserId() == authId && s.getMemo().getId() == memoId).collect(Collectors.toList());
 		Map<String, String> result = new HashMap<String, String>();
-		if(shares.size() > 0) {
+		if (shares.size() > 0) {
 			MemoShare ms = shares.get(0);
 			if (ms.getCtgrId() != ctgrId) {
 				ms.setCtgrId(ctgrId);
@@ -226,7 +225,7 @@ public class MemoController {
 			service.updateShare(ms);
 			result.put("result", "success");
 		}
-		
+
 		return result;
 	}
 }
