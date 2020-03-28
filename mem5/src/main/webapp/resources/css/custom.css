@@ -96,3 +96,23 @@ body {
 	min-width: 15rem;
 	max-width: 15rem;
 }
+
+.card {
+	height: 250px;
+}
+
+.card-title {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2; 
+	-webkit-box-orient: vertical;
+}
+
+.card-text {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 4; 
+	-webkit-box-orient: vertical;
+}
