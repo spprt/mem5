@@ -139,4 +139,24 @@ public class MemoDAOImpl implements MemoDAO {
 		query.setParameter("memoId", memoId);
 		query.executeUpdate();
 	}
+
+	@Override
+	public void checkFavorite(Long memoId, Long userId, boolean checked) {
+		String jpql = "UPDATE MemoShare s SET s.favorite = :check where s.memo.id = :memoId and s.userId = :userId";
+		Query query = getSession().createQuery(jpql);
+		query.setParameter("check", checked);
+		query.setParameter("memoId", memoId);
+		query.setParameter("userId", userId);
+		query.executeUpdate();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Memo> getFavoriteMemo(Long userId) {
+		String jpql = "SELECT m.id, m.title, m.type, m.regDate, m.modDate FROM Memo m, MemoShare s where s.userId = :userId AND s.memo.id = m.id AND s.favorite = :favorite";
+		Query query = getSession().createQuery(jpql);
+		query.setParameter("userId", userId);
+		query.setParameter("favorite", true);
+		return query.list();
+	}
 }

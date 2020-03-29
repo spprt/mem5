@@ -119,4 +119,14 @@ public class MemoServiceImpl implements MemoService {
 			}
 		}
 	}
+
+	@Override
+	public void checkFavorite(Long memoId, Long userId, boolean checked) {
+		memoDAO.checkFavorite(memoId, userId, checked);
+	}
+
+	@Override
+	public List<Memo> getFavoriteMemo(Long userId) {
+		return memoDAO.getPtlList(userId);
+	}
 }

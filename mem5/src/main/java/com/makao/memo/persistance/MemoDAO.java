@@ -15,7 +15,7 @@ public interface MemoDAO {
 	public void restoreMemo(Long memoId);
 
 	public void removeMemo(Long memoId);
-	
+
 	public void removeAll(Long userId);
 
 	public Memo readMemo(Long memoId);
@@ -23,7 +23,7 @@ public interface MemoDAO {
 	public List<Memo> getAllMemo(Long userId);
 
 	public List<Memo> getCtgrMemo(Long userId, Long ctgrId);
-	
+
 	public List<Memo> getDelMemo(Long userId);
 
 	public List<Memo> getPtlList(Long userId);
@@ -35,4 +35,8 @@ public interface MemoDAO {
 	public void updateShare(MemoShare share);
 
 	public void sortTodo(Long id, int index, Long memoId);
+
+	public void checkFavorite(Long memoId, Long userId, boolean checked);
+	
+	public List<Memo> getFavoriteMemo(Long userId);
 }

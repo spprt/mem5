@@ -42,6 +42,9 @@ public class MemoShare implements Serializable {
 	@Column(name = "isreg")
 	private boolean register;
 
+	@Column(name = "isfavorite")
+	private boolean favorite;
+
 	@Column(name = "ctgrid")
 	private Long ctgrId;
 
@@ -83,6 +86,14 @@ public class MemoShare implements Serializable {
 
 	public void setRegister(boolean register) {
 		this.register = register;
+	}
+	
+	public boolean isFavorite() {
+		return favorite;
+	}
+
+	public void setFavorite(boolean favorite) {
+		this.favorite = favorite;
 	}
 
 	public Long getCtgrId() {

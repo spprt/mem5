@@ -43,4 +43,8 @@ public interface MemoService {
 	public void updateShare(MemoShare share);
 
 	public void sortTodo(Long memoId, String ids);
+	
+	public void checkFavorite(Long memoId, Long userId, boolean checked);
+	
+	public List<Memo> getFavoriteMemo(Long userId);
 }

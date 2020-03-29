@@ -6,6 +6,9 @@
 			<div class="item list-group-item bg-light">로그인해 주세요.</div>
 		</c:when>
 		<c:otherwise>
+			<div id="favoriteMemo" data-id="-2" class="all item" style="position:relative;">
+				<a href="#" class="list-group-item list-group-item-action bg-light">즐겨찾기한 메모 보기</a>
+			</div>
 			<div id="delMemo" data-id="-9" class="all item" style="position:relative;">
 				<a href="#" class="list-group-item list-group-item-action bg-light">삭제된 메모 보기</a>
 			</div>
