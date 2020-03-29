@@ -15,6 +15,9 @@ $(function(){
 	if (rightPage) {
 		loadRightArea(rightPage)
 	} else {
+		<c:if test="${empty authInfo}">
+		$('#wrapper').addClass('toggled');
+		</c:if>
 		loadRightArea('${pageContext.request.contextPath}/memo/main');
 	}
 	
@@ -73,14 +76,14 @@ function clickCtgr(categoryId) {
 					$('<i class="fas fa-list-ul"></i>').appendTo(a);
 				}
 				$('<span class="title">').css('padding-left', '5px').attr({'title': arr[i][1]}).text(arr[i][1]).appendTo(a);
-				
-				div.attr({'data-id': arr[i][0], 'data-title' : arr[i][1], 'onclick': 'viewMemo('+arr[i][0]+');'}).appendTo('#memoList');
+				div.attr({'data-id': arr[i][0], 'data-title' : arr[i][1],'data-regDate': arr[i][3], 'data-modDate':arr[i][4], 'onclick': 'viewMemo('+arr[i][0]+');'})
+				.appendTo('#memoList');
 			}
 		} else {
-			$('<div class="list-group-item list-group-item-action bg-light">').text('표시할 목록이 없습니다.').appendTo('#memoList');
+			$('<div class="list-group-item list-group-item-action bg-light memoNoneArea">').text('표시할 목록이 없습니다.').appendTo('#memoList');
 		}
 	}).fail(function(result) {
-		$('<div class="list-group-item list-group-item-action bg-light">').text('표시할 목록이 없습니다.').appendTo('#memoList');
+		$('<div class="list-group-item list-group-item-action bg-light memoNoneArea">').text('표시할 목록이 없습니다.').appendTo('#memoList');
 		console.error(result);
 	});
 	selectedCtgrId = categoryId;
