@@ -15,12 +15,16 @@ public interface MemoDAO {
 	public void restoreMemo(Long memoId);
 
 	public void removeMemo(Long memoId);
+	
+	public void removeAll(Long userId);
 
 	public Memo readMemo(Long memoId);
 
 	public List<Memo> getAllMemo(Long userId);
 
 	public List<Memo> getCtgrMemo(Long userId, Long ctgrId);
+	
+	public List<Memo> getDelMemo(Long userId);
 
 	public List<Memo> getPtlList(Long userId);
 

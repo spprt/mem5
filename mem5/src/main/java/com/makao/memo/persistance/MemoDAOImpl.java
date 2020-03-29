@@ -39,7 +39,7 @@ public class MemoDAOImpl implements MemoDAO {
 		memo.setModDate(new Date());
 		getSession().saveOrUpdate(memo);
 	}
-	
+
 	@Override
 	public void restoreMemo(Long memoId) {
 		Memo memo = readMemo(memoId);
@@ -52,6 +52,15 @@ public class MemoDAOImpl implements MemoDAO {
 	public void removeMemo(Long memoId) {
 		Memo memo = readMemo(memoId);
 		getSession().delete(memo);
+	}
+	
+	@Override
+	public void removeAll(Long userId) {
+		String jpql = "UPDATE Memo m SET m.del = :del where m.regUserId = :userId";
+		Query query = getSession().createQuery(jpql);
+		query.setParameter("del", true);
+		query.setParameter("userId", userId);
+		query.executeUpdate();
 	}
 
 	@Override
@@ -77,6 +86,16 @@ public class MemoDAOImpl implements MemoDAO {
 		query.setParameter("userId", userId);
 		query.setParameter("ctgrId", ctgrId);
 		query.setParameter("del", false);
+		return query.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Memo> getDelMemo(Long userId) {
+		String jpql = "SELECT m.id, m.title, m.type, m.regDate, m.modDate FROM Memo m where regUserId = :userId AND m.del = :del order by modDate desc, id desc";
+		Query query = getSession().createQuery(jpql);
+		query.setParameter("userId", userId);
+		query.setParameter("del", true);
 		return query.list();
 	}
 

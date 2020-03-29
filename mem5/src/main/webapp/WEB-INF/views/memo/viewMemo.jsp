@@ -29,9 +29,17 @@
 		</div>
 		</c:if>
 		<small class="d-block text-right mt-3">
-		  <a href="${pageContext.request.contextPath }/memo/goEditNote?id=${memo.id}">수정</a>
-		  <a> | </a>
-		  <a href="${pageContext.request.contextPath }/memo/del?id=${memo.id}">삭제</a>
+	      <c:if test="${memo.del == true}">
+	      	<a href="${pageContext.request.contextPath }/memo/restore?id=${memo.id}">복원</a>
+	      	<a> | </a>
+	      	<a href="${pageContext.request.contextPath }/memo/remove?id=${memo.id}">폐기</a>
+	      </c:if>
+	      
+	      <c:if test="${memo.del == false}">
+	      	<a href="${pageContext.request.contextPath }/memo/goEditNote?id=${memo.id}">수정</a>
+	      	<a> | </a>
+	      	<a href="${pageContext.request.contextPath }/memo/del?id=${memo.id}">삭제</a>
+	      </c:if>
 		</small>
 	</div>
 </main>

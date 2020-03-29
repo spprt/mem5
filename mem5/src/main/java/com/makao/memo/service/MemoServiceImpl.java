@@ -43,10 +43,15 @@ public class MemoServiceImpl implements MemoService {
 	public void restoreMemo(Long memoId) {
 		memoDAO.restoreMemo(memoId);
 	}
-	
+
 	@Override
 	public void removeMemo(Long memoId) {
 		memoDAO.removeMemo(memoId);
+	}
+
+	@Override
+	public void removeAll(Long userId) {
+		memoDAO.removeAll(userId);
 	}
 
 	@Override
@@ -62,6 +67,11 @@ public class MemoServiceImpl implements MemoService {
 	@Override
 	public List<Memo> getCtgrMemo(Long userId, Long ctgrId) {
 		return memoDAO.getCtgrMemo(userId, ctgrId);
+	}
+
+	@Override
+	public List<Memo> getDelMemo(Long userId) {
+		return memoDAO.getDelMemo(userId);
 	}
 
 	@Override

@@ -136,7 +136,13 @@ function viewMemo(id) {
 	loadRightArea('${pageContext.request.contextPath}/memo/view?id=' + id)
 }
 function getMemoList(ctgrId) {
-	var url = (ctgrId == -1) ? '/memo/allMyList' : '/memo/myList';
+	var url = '/memo/myList';
+	if (ctgrId == -1) {
+		url = '/memo/allMyList';
+	} else if (ctgrId == -9) {
+		url = '/memo/delList';
+	}
+	
 	return $.ajax({
 		type: 'get',
 		data: {ctgrId: ctgrId},

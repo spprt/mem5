@@ -81,6 +81,16 @@ public class MemoController {
 		return resMap;
 	}
 
+	@RequestMapping(value = "/memo/delList", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public Map<String, Object> getDelMemo(HttpSession session) throws Exception {
+		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
+		List<Memo> list = service.getDelMemo(authInfo.getId());
+		Map<String, Object> resMap = new HashMap<String, Object>();
+		resMap.put("array", list);
+		return resMap;
+	}
+
 	@RequestMapping(value = "/memo/selectType", method = RequestMethod.GET)
 	public ModelAndView goAdd(Long ctgrId) throws Exception {
 		ModelAndView mv = new ModelAndView("memo/selectType");
@@ -160,7 +170,8 @@ public class MemoController {
 		}
 
 		String ctgrName = "";
-		if (ctgrId != -1L) {
+		// 추가 메뉴 고려해서 정의 필요
+		if (ctgrId != -1L && ctgrId != -9L) {
 			ctgrName = ctgrService.getCategory(ctgrId).getCtgrName();
 		}
 
@@ -235,6 +246,33 @@ public class MemoController {
 //		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
 		// permission 체크 필요
 		service.delMemo(id);
+		return "redirect:/";
+	}
+
+	@RequestMapping(value = "/memo/restore", method = RequestMethod.GET)
+	public String restore(Long id, HttpSession session) throws Exception {
+//		Memo memo = service.readMemo(id);
+//		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
+		// permission 체크 필요
+		service.restoreMemo(id);
+		return "redirect:/";
+	}
+
+	@RequestMapping(value = "/memo/remove", method = RequestMethod.GET)
+	public String remove(Long id, HttpSession session) throws Exception {
+//		Memo memo = service.readMemo(id);
+//		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
+		// permission 체크 필요
+		service.removeMemo(id);
+		return "redirect:/";
+	}
+
+	@RequestMapping(value = "/memo/removeAll", method = RequestMethod.GET)
+	public String removeAll(HttpSession session) throws Exception {
+//		Memo memo = service.readMemo(id);
+		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
+		// permission 체크 필요
+		service.removeAll(authInfo.getId());
 		return "redirect:/";
 	}
 }
