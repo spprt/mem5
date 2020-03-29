@@ -116,3 +116,8 @@ body {
 	-webkit-line-clamp: 4; 
 	-webkit-box-orient: vertical;
 }
+
+.list-group-item-action.memo-heading:hover{
+	z-index: auto;
+	cursor: auto;
+}
