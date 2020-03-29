@@ -15,6 +15,9 @@ $(function(){
 	if (rightPage) {
 		loadRightArea(rightPage)
 	} else {
+		<c:if test="${empty authInfo}">
+		$('#wrapper').addClass('toggled');
+		</c:if>
 		loadRightArea('${pageContext.request.contextPath}/memo/main');
 	}
 	
