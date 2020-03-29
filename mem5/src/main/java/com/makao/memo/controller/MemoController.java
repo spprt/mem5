@@ -184,7 +184,7 @@ public class MemoController {
 		return mv;
 	}
 
-	@RequestMapping(value = "/memo/goEditNote", method = RequestMethod.GET)
+	@RequestMapping(value = "/memo/goEditMemo", method = RequestMethod.GET)
 	public ModelAndView goEdit(Long id, HttpSession session) throws Exception {
 		Memo memo = service.readMemo(id);
 		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
@@ -195,7 +195,7 @@ public class MemoController {
 			String tagStr = tags.stream().map(t -> t.getTag()).collect(Collectors.joining(","));
 			mv.addObject("tagStr", tagStr);
 //			mv.setViewName("redirect:/?rightPage=/memo/editNote");
-			mv.setViewName("memo/editNote");
+			mv.setViewName("memo/editMemo");
 		} else {
 			mv.setViewName("redirect:/");
 		}
@@ -203,7 +203,7 @@ public class MemoController {
 		return mv;
 	}
 
-	@RequestMapping(value = "/memo/saveEditNote", method = RequestMethod.POST)
+	@RequestMapping(value = "/memo/saveEditMemo", method = RequestMethod.POST)
 	public ModelAndView editNote(@ModelAttribute Memo memo, HttpSession session) throws Exception {
 //		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
 		memo.setModDate(new Date());

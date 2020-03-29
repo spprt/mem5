@@ -140,7 +140,7 @@ function editMemo(id) {
 	$.ajax({
 		type: "get",
 		data: {id: id},
-		url: "${pageContext.request.contextPath}/memo/goEditNote",
+		url: "${pageContext.request.contextPath}/memo/goEditMemo",
 		success : function(result) {
 			rightContainer.empty();
 			$(result).appendTo(rightContainer);

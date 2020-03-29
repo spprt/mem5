@@ -35,12 +35,12 @@ function formsubmit(f){
 	</c:when>
 	<c:otherwise>
 	      <h4 class="mb-3">Edit Note</h4>
-	      <form class="needs-validation" novalidate="" method="post" action="${pageContext.request.contextPath }/memo/saveEditNote">
+	      <form class="needs-validation" novalidate="" method="post" action="${pageContext.request.contextPath }/memo/saveEditMemo">
 	      <input type="hidden" name="id" id="id" value="${memo.id}">
 	      	<input type="hidden" name="modUserId" id="modUserId" value="${authInfo.id}">
 	      	<input type="hidden" name="regUserId" id="regUserId" value="${memo.regUserId}">
 	      	<input type="hidden" name="ctgrId" id="ctgrId" value="${ctgrId}">
-            <input type="hidden" name="type" value="<%= com.makao.memo.entity.Memo.TYPE_NOTE%>">
+            <input type="hidden" name="type" value="${memo.type}">
 			<div class="mb-3">
 	            <label for="title">Title</label>
 	            <input type="text" class="form-control" name="title" id="title" placeholder="" value="${memo.title}" required="">
@@ -66,11 +66,13 @@ function formsubmit(f){
 	            쉼표(,)를 구분해서 입력해주세요
 	          </div>
 	        </div>
-	
+			<c:set var="noteType" value="<%=com.makao.memo.entity.Memo.TYPE_NOTE %>"/>
+			<c:if test="${memo.type eq noteType }">
 	        <div class="mb-3">
 	          <label for="content">Content</label>
 	          <textarea type="text" class="form-control" name="content" id="content" required="">${memo.content}</textarea>
 	        </div>
+	        </c:if>
 	        <hr class="mb-4">
 	        <input type="button" value="Register" class="btn btn-primary btn-lg btn-block" onclick="formsubmit(this.form)">
 	      </form>
