@@ -32,7 +32,7 @@ function memoSort(isAsc) {
 						var aVal = $(a).data('moddate');
 						var bVal = $(b).data('moddate');
 						
-						if(isAsc) {
+						if (isAsc) {
 							return aVal - bVal;
 						} else {
 							return bVal - aVal;
@@ -41,9 +41,8 @@ function memoSort(isAsc) {
 					case '2':
 						var aVal = $(a).data('regdate');
 						var bVal = $(b).data('regdate');
-						console.log('aVal', aVal)
 						
-						if(isAsc) {
+						if (isAsc) {
 							return aVal - bVal;
 						} else {
 							return bVal - aVal;
