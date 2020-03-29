@@ -1,8 +1,10 @@
 package com.makao.memo.controller;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.makao.memo.entity.Memo;
 import com.makao.memo.entity.Memo.Tag;
 import com.makao.memo.entity.MemoShare;
+import com.makao.memo.entity.MemoTodo;
 import com.makao.memo.entity.User;
 import com.makao.memo.service.CategoryService;
 import com.makao.memo.service.MemoService;
@@ -273,6 +276,43 @@ public class MemoController {
 		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
 		// permission 체크 필요
 		service.removeAll(authInfo.getId());
+		return "redirect:/";
+	}
+
+	@RequestMapping(value = "/memo/copy", method = RequestMethod.GET)
+	public String copyMemo(Long id, HttpSession session) throws Exception {
+		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
+		Memo memo = service.readMemo(id);
+		memo.setTitle("[사본]" + memo.getTitle());
+
+		List<MemoShare> shares = memo.getShares().stream()
+				.filter(ms -> ms.getMemo().getId() == id && ms.getUserId() == authInfo.getId())
+				.collect(Collectors.toList());
+
+		MemoShare ms;
+		if (shares.size() == 1) {
+			ms = shares.get(0);
+		} else {
+			User register = userSer.getUser(memo.getRegUserId());
+			ms = new MemoShare(register);
+			ms.setRegister(true);
+		}
+		service.addMemo(memo, ms);
+		if (memo.getType() == Memo.TYPE_TODO) {
+			Collection<MemoTodo> todos = memo.getTodos();
+			for (Iterator<MemoTodo> itr = todos.iterator(); itr.hasNext();)
+			{
+				MemoTodo oldTodo = itr.next();
+				MemoTodo todo = new MemoTodo();
+				todo.setTitle(oldTodo.getTitle());
+				todo.setIdx(oldTodo.getIdx());
+				todo.setComplete(oldTodo.isComplete());
+				todo.setRegDate(new Date());
+				todo.setMemo(memo);
+
+				service.addTodo(todo);
+			}
+		}
 		return "redirect:/";
 	}
 }

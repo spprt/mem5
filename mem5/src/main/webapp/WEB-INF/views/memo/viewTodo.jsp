@@ -243,6 +243,8 @@ function sortTodo(ids) {
 			      </c:if>
 			      
 			      <c:if test="${memo.del == false}">
+			      	<a href="${pageContext.request.contextPath }/memo/copy?id=${memo.id}">사본만들기</a>
+			      	<a> | </a>
 			      	<a href="#" onclick="editMemo(${memo.id});">수정</a>
 			      	<a> | </a>
 			      	<a href="${pageContext.request.contextPath }/memo/del?id=${memo.id}">삭제</a>
