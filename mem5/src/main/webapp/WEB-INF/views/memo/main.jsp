@@ -20,7 +20,10 @@
 		<c:choose>
 			<c:when test="${empty authInfo}">
 				<!-- css처리 -->
-				<div>로그인해 주세요. </div>
+				<div class="col-sm-12 my-auto text-center">
+					<i class="fas fa-sign-in-alt fa-5x"></i>
+					<h5 class="pt-4">로그인 후 사용하실 수 있습니다.</h5>
+			    </div>
 			</c:when>
 			<c:otherwise>
 				<c:choose>
