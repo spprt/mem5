@@ -153,6 +153,8 @@ function getMemoList(ctgrId) {
 		url = '/memo/allMyList';
 	} else if (ctgrId == -9) {
 		url = '/memo/delList';
+	} else if (ctgrId == -2) {
+		url = '/memo/favoriteList';
 	}
 	
 	return $.ajax({

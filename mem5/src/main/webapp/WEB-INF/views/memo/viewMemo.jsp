@@ -36,6 +36,13 @@
 	      </c:if>
 	      
 	      <c:if test="${memo.del == false}">
+      		<c:if test="${favorite == false}">
+      		<a href="${pageContext.request.contextPath }/memo/favorite?id=${memo.id}&check=true">즐겨찾기</a>
+      		</c:if>
+      		<c:if test="${favorite == true}">
+      		<a href="${pageContext.request.contextPath }/memo/favorite?id=${memo.id}&check=false">즐겨찾기해제</a>
+      		</c:if>
+	      	<a> | </a>
 	      	<a href="#" onclick="editMemo(${memo.id});">수정</a>
 	      	<a> | </a>
 	      	<a href="${pageContext.request.contextPath }/memo/del?id=${memo.id}">삭제</a>

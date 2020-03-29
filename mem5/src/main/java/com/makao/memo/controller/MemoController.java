@@ -165,19 +165,22 @@ public class MemoController {
 				.filter(ms -> ms.getMemo().getId() == id && ms.getUserId() == authInfo.getId())
 				.collect(Collectors.toList());
 		Long ctgrId = -1L;
+		boolean favorite = false;
 		if (!shares.isEmpty()) {
-			ctgrId = shares.get(0).getCtgrId();
+			MemoShare share = shares.get(0);
+			ctgrId = share.getCtgrId();
+			favorite = share.isFavorite();
 		}
 
 		String ctgrName = "";
-		// 추가 메뉴 고려해서 정의 필요
-		if (ctgrId != -1L && ctgrId != -9L) {
+		if (ctgrId > 0L) {
 			ctgrName = ctgrService.getCategory(ctgrId).getCtgrName();
 		}
 
 		ModelAndView mv = new ModelAndView(viewType);
 		mv.addObject("memo", memo);
 		mv.addObject("ctgrName", ctgrName);
+		mv.addObject("favorite", favorite);
 		return mv;
 	}
 
@@ -274,5 +277,23 @@ public class MemoController {
 		// permission 체크 필요
 		service.removeAll(authInfo.getId());
 		return "redirect:/";
+	}
+
+	@RequestMapping(value = "/memo/favorite", method = RequestMethod.GET)
+	public String favorite(Long id, boolean check, HttpSession session) throws Exception {
+		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
+		Long userId = authInfo.getId();
+		service.checkFavorite(id, userId, check);
+		return "";
+	}
+
+	@RequestMapping(value = "/memo/favoriteList", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public Map<String, Object> getFavoriteMemo(HttpSession session) throws Exception {
+		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
+		List<Memo> list = service.getFavoriteMemo(authInfo.getId());
+		Map<String, Object> resMap = new HashMap<String, Object>();
+		resMap.put("array", list);
+		return resMap;
 	}
 }
