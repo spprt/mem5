@@ -184,7 +184,7 @@ public class MemoController {
 		return mv;
 	}
 
-	@RequestMapping(value = "/memo/goEditNote", method = RequestMethod.GET)
+	@RequestMapping(value = "/memo/goEditMemo", method = RequestMethod.GET)
 	public ModelAndView goEdit(Long id, HttpSession session) throws Exception {
 		Memo memo = service.readMemo(id);
 		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
@@ -195,7 +195,7 @@ public class MemoController {
 			String tagStr = tags.stream().map(t -> t.getTag()).collect(Collectors.joining(","));
 			mv.addObject("tagStr", tagStr);
 //			mv.setViewName("redirect:/?rightPage=/memo/editNote");
-			mv.setViewName("memo/editNote");
+			mv.setViewName("memo/editMemo");
 		} else {
 			mv.setViewName("redirect:/");
 		}
@@ -203,7 +203,7 @@ public class MemoController {
 		return mv;
 	}
 
-	@RequestMapping(value = "/memo/saveEditNote", method = RequestMethod.POST)
+	@RequestMapping(value = "/memo/saveEditMemo", method = RequestMethod.POST)
 	public ModelAndView editNote(@ModelAttribute Memo memo, HttpSession session) throws Exception {
 //		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
 		memo.setModDate(new Date());
@@ -276,6 +276,44 @@ public class MemoController {
 		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
 		// permission 체크 필요
 		service.removeAll(authInfo.getId());
+		return "redirect:/";
+	}
+	
+
+	@RequestMapping(value = "/memo/copy", method = RequestMethod.GET)
+	public String copyMemo(Long id, HttpSession session) throws Exception {
+		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
+		Memo memo = service.readMemo(id);
+		memo.setTitle("[사본]" + memo.getTitle());
+
+		List<MemoShare> shares = memo.getShares().stream()
+				.filter(ms -> ms.getMemo().getId() == id && ms.getUserId() == authInfo.getId())
+				.collect(Collectors.toList());
+
+		MemoShare ms;
+		if (shares.size() == 1) {
+			ms = shares.get(0);
+		} else {
+			User register = userSer.getUser(memo.getRegUserId());
+			ms = new MemoShare(register);
+			ms.setRegister(true);
+		}
+		service.addMemo(memo, ms);
+		if (memo.getType() == Memo.TYPE_TODO) {
+			Collection<MemoTodo> todos = memo.getTodos();
+			for (Iterator<MemoTodo> itr = todos.iterator(); itr.hasNext();)
+			{
+				MemoTodo oldTodo = itr.next();
+				MemoTodo todo = new MemoTodo();
+				todo.setTitle(oldTodo.getTitle());
+				todo.setIdx(oldTodo.getIdx());
+				todo.setComplete(oldTodo.isComplete());
+				todo.setRegDate(new Date());
+				todo.setMemo(memo);
+
+				service.addTodo(todo);
+			}
+		}
 		return "redirect:/";
 	}
 

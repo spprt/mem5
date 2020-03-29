@@ -43,6 +43,8 @@
       		<a href="${pageContext.request.contextPath }/memo/favorite?id=${memo.id}&check=false">즐겨찾기해제</a>
       		</c:if>
 	      	<a> | </a>
+	      	<a href="${pageContext.request.contextPath }/memo/copy?id=${memo.id}">사본만들기</a>
+			<a> | </a>
 	      	<a href="#" onclick="editMemo(${memo.id});">수정</a>
 	      	<a> | </a>
 	      	<a href="${pageContext.request.contextPath }/memo/del?id=${memo.id}">삭제</a>
