@@ -183,6 +183,7 @@ public class MemoController {
 		ModelAndView mv = new ModelAndView(viewType);
 		mv.addObject("memo", memo);
 		mv.addObject("ctgrName", ctgrName);
+		mv.addObject("ctgrId", ctgrId);
 		mv.addObject("favorite", favorite);
 		return mv;
 	}
@@ -281,7 +282,6 @@ public class MemoController {
 		service.removeAll(authInfo.getId());
 		return "redirect:/";
 	}
-	
 
 	@RequestMapping(value = "/memo/copy", method = RequestMethod.GET)
 	public String copyMemo(Long id, HttpSession session) throws Exception {
@@ -304,8 +304,7 @@ public class MemoController {
 		service.addMemo(memo, ms);
 		if (memo.getType() == Memo.TYPE_TODO) {
 			Collection<MemoTodo> todos = memo.getTodos();
-			for (Iterator<MemoTodo> itr = todos.iterator(); itr.hasNext();)
-			{
+			for (Iterator<MemoTodo> itr = todos.iterator(); itr.hasNext();) {
 				MemoTodo oldTodo = itr.next();
 				MemoTodo todo = new MemoTodo();
 				todo.setTitle(oldTodo.getTitle());
@@ -321,11 +320,13 @@ public class MemoController {
 	}
 
 	@RequestMapping(value = "/memo/favorite", method = RequestMethod.GET)
-	public String favorite(Long id, boolean check, HttpSession session) throws Exception {
+	public ModelAndView favorite(Long id, boolean check, HttpSession session) throws Exception {
 		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
 		Long userId = authInfo.getId();
 		service.checkFavorite(id, userId, check);
-		return "";
+		ModelAndView mv = new ModelAndView("redirect:/?rightPage=/memo/view?id=" + id);
+		//return "redirect:/?rightPage=/memo/view?id=" + id;
+		return mv;
 	}
 
 	@RequestMapping(value = "/memo/favoriteList", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

@@ -50,6 +50,10 @@ li.ui-state-default:last-child {
 </style>
 <script>
 $(function(){
+	selectCtgr('${ctgrId}', function () {
+		viewMemo('${memo.id}', true);
+	});
+	
 	$("#todo-sortable").sortable({
 		stop: function(event, ui) {
 			var $this = $(this);

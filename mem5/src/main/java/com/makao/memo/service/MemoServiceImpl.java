@@ -127,6 +127,6 @@ public class MemoServiceImpl implements MemoService {
 
 	@Override
 	public List<Memo> getFavoriteMemo(Long userId) {
-		return memoDAO.getPtlList(userId);
+		return memoDAO.getFavoriteList(userId);
 	}
 }

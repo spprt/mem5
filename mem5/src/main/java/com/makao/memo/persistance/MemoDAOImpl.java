@@ -152,7 +152,7 @@ public class MemoDAOImpl implements MemoDAO {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Memo> getFavoriteMemo(Long userId) {
+	public List<Memo> getFavoriteList(Long userId) {
 		String jpql = "SELECT m.id, m.title, m.type, m.regDate, m.modDate FROM Memo m, MemoShare s where s.userId = :userId AND s.memo.id = m.id AND s.favorite = :favorite";
 		Query query = getSession().createQuery(jpql);
 		query.setParameter("userId", userId);

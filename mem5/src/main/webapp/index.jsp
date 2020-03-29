@@ -12,6 +12,7 @@ $(function(){
 	    $("#wrapper").toggleClass("toggled");
 	});
 	let rightPage = '${param.rightPage}';
+	
 	if (rightPage) {
 		loadRightArea(rightPage)
 	} else {
@@ -51,17 +52,17 @@ $(function(){
 });
 <%-- Category Selected Manage Start --%>
 var selectedCtgrId;
-function selectCtgr(ctgrId) {
+function selectCtgr(ctgrId, callback) {
 	if (!ctgrId) {
 		ctgrId = -1;
-		clickCtgr(ctgrId);
+		clickCtgr(ctgrId, callback);
 	} else {
 		if ((typeof selectedCtgrId ==='undefined') || selectedCtgrId != ctgrId) {
-			clickCtgr(ctgrId);
+			clickCtgr(ctgrId, callback);
 		}
 	}
 }
-function clickCtgr(categoryId) {
+function clickCtgr(categoryId, callback) {
 	$('#memoList').empty();
 	getMemoList(categoryId).done(function(result) {
 		if (result.array && result.array.length > 0) {
@@ -78,6 +79,10 @@ function clickCtgr(categoryId) {
 				$('<span class="title">').css('padding-left', '5px').attr({'title': arr[i][1]}).text(arr[i][1]).appendTo(a);
 				div.attr({'data-id': arr[i][0], 'data-title' : arr[i][1],'data-regDate': arr[i][3], 'data-modDate':arr[i][4], 'onclick': 'viewMemo('+arr[i][0]+');'})
 				.appendTo('#memoList');
+			}
+			if (typeof callback === 'undefined') {
+			} else {
+				callback();
 			}
 		} else {
 			$('<div class="list-group-item list-group-item-action bg-light memoNoneArea">').text('표시할 목록이 없습니다.').appendTo('#memoList');
@@ -128,12 +133,13 @@ function deleteCtgr(obj) {
 	frm.method = "get";
 	frm.submit();
 }
-function viewMemo(id) {
+function viewMemo(id, load) {
 	$('#memoList .list-group-item').removeClass('selected');
 	var item = $('#memoList').find('.memoItem[data-id="'+id+'"]');
 	item.find('.list-group-item').addClass('selected');
 	
-	loadRightArea('${pageContext.request.contextPath}/memo/view?id=' + id)
+	if (!load)
+		loadRightArea('${pageContext.request.contextPath}/memo/view?id=' + id)
 }
 function editMemo(id) {
 	var rightContainer = $('#rightContainer');
