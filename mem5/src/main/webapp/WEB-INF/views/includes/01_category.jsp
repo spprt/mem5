@@ -1,7 +1,7 @@
 <script type="text/javascript">
 $(function(){
 	$('#myCtgr').sortable({
-		items: 'div:not(#ctgr_All)',
+		items: 'div:not(.all)',
 		axis: 'y', 
 		update : function(event, ui) {
 			const ctgrId = ui.item.data('id');

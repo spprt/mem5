@@ -6,24 +6,28 @@
 </head>
 <script type="text/javascript">
 function formsubmit(f){
-	let tag = f.tag;
-	let tagArr = [];
-    if(tag.value.length > 0){
-    	tagArr = Array.from(new Set(tag.value.split(',')));
-    	tagArr = tagArr.filter(v =>  v != '');
+	let isValid = f.checkValidity();
+    f.classList.add('was-validated');
+    if (isValid) {
+		let tag = f.tag;
+		let tagArr = [];
+	    if(tag.value.length > 0){
+	    	tagArr = Array.from(new Set(tag.value.split(',')));
+	    	tagArr = tagArr.filter(v =>  v != '');
+	    }
+	    
+	  	let $tags = $('input[name*="tags"');
+	  	if($tags) {
+	  		$tags.remove();
+	  	}
+	  	tagArr.forEach((t, idx) => {
+	  		if (idx < 10)
+	    		f.appendChild(addData('tags['+ idx +'].tag', t));
+	    });
+	    	
+		f.method = 'post';
+		f.submit();
     }
-    
-  	let $tags = $('input[name*="tags"');
-  	if($tags) {
-  		$tags.remove();
-  	}
-  	tagArr.forEach((t, idx) => {
-  		if (idx < 10)
-    		f.appendChild(addData('tags['+ idx +'].tag', t));
-    });
-    	
-	f.method = 'post';
-	f.submit();
 }
 </script>
 <body>
@@ -34,12 +38,12 @@ function formsubmit(f){
 	</c:when>
 	<c:otherwise>
 		<h4 class="mb-3">Write Todo</h4>
-	      <form class="needs-validation" novalidate="" method="post" action="${pageContext.request.contextPath }/memo/saveNote">
+	      <form class="needs-validation" novalidate method="post" action="${pageContext.request.contextPath }/memo/saveNote">
 	      <input type="hidden" name="ctgrId" id="ctgrId" value="${ctgrId}">
 	      <input type="hidden" name="type" value="<%= com.makao.memo.entity.Memo.TYPE_TODO %>"/>
 	          <div class="mb-3">
 	            <label for="title">Title</label>
-	            <input type="text" class="form-control" name="title" id="title" placeholder="" value="" required="">
+	            <input type="text" class="form-control" name="title" id="title" placeholder="" value="" maxlength="255" required>
 	            <div class="invalid-feedback">
 	              Valid title is required.
 	            </div>
