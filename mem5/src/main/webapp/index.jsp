@@ -129,6 +129,10 @@ function deleteCtgr(obj) {
 	frm.submit();
 }
 function viewMemo(id) {
+	$('#memoList .list-group-item').removeClass('selected');
+	var item = $('#memoList').find('.memoItem[data-id="'+id+'"]');
+	item.find('.list-group-item').addClass('selected');
+	
 	loadRightArea('${pageContext.request.contextPath}/memo/view?id=' + id)
 }
 function getMemoList(ctgrId) {
