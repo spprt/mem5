@@ -243,7 +243,7 @@ function sortTodo(ids) {
 			      </c:if>
 			      
 			      <c:if test="${memo.del == false}">
-			      	<a href="${pageContext.request.contextPath }/memo/goEditNote?id=${memo.id}">수정</a>
+			      	<a href="#" onclick="editMemo(${memo.id});">수정</a>
 			      	<a> | </a>
 			      	<a href="${pageContext.request.contextPath }/memo/del?id=${memo.id}">삭제</a>
 			      </c:if>

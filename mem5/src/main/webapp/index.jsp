@@ -135,6 +135,18 @@ function viewMemo(id) {
 	
 	loadRightArea('${pageContext.request.contextPath}/memo/view?id=' + id)
 }
+function editMemo(id) {
+	var rightContainer = $('#rightContainer');
+	$.ajax({
+		type: "get",
+		data: {id: id},
+		url: "${pageContext.request.contextPath}/memo/goEditNote",
+		success : function(result) {
+			rightContainer.empty();
+			$(result).appendTo(rightContainer);
+		}
+	});
+}
 function getMemoList(ctgrId) {
 	var url = '/memo/myList';
 	if (ctgrId == -1) {
