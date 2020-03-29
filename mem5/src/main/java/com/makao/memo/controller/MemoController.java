@@ -228,4 +228,13 @@ public class MemoController {
 
 		return result;
 	}
+
+	@RequestMapping(value = "/memo/del", method = RequestMethod.GET)
+	public String delete(Long id, HttpSession session) throws Exception {
+//		Memo memo = service.readMemo(id);
+//		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
+		// permission 체크 필요
+		service.delMemo(id);
+		return "redirect:/";
+	}
 }

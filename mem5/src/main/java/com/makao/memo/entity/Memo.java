@@ -58,7 +58,7 @@ public class Memo implements Serializable {
 	private Date modDate;
 
 	@Column(name = "isdel")
-	private boolean isDel;
+	private boolean del;
 
 	@Column(name = "reg_userid")
 	private Long regUserId;
@@ -130,11 +130,11 @@ public class Memo implements Serializable {
 	}
 
 	public boolean isDel() {
-		return isDel;
+		return del;
 	}
 
-	public void setDel(boolean isDel) {
-		this.isDel = isDel;
+	public void setDel(boolean del) {
+		this.del = del;
 	}
 
 	public Long getRegUserId() {

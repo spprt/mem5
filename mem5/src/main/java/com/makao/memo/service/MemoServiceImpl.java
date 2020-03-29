@@ -40,6 +40,16 @@ public class MemoServiceImpl implements MemoService {
 	}
 
 	@Override
+	public void restoreMemo(Long memoId) {
+		memoDAO.restoreMemo(memoId);
+	}
+	
+	@Override
+	public void removeMemo(Long memoId) {
+		memoDAO.removeMemo(memoId);
+	}
+
+	@Override
 	public Memo readMemo(Long memoId) {
 		return memoDAO.readMemo(memoId);
 	}

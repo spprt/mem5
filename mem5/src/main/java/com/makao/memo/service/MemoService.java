@@ -14,6 +14,10 @@ public interface MemoService {
 
 	public void delMemo(Long memoId);
 
+	public void restoreMemo(Long memoId);
+
+	public void removeMemo(Long memoId);
+
 	public Memo readMemo(Long memoId);
 
 	public List<Memo> getAllMemo(Long userId);
@@ -31,8 +35,8 @@ public interface MemoService {
 	public void allCheckTodo(Long memoId, boolean checked);
 
 	public void delTodo(Long todoId);
-	
+
 	public void updateShare(MemoShare share);
-	
+
 	public void sortTodo(Long memoId, String ids);
 }

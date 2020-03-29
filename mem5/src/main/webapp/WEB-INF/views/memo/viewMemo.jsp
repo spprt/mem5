@@ -30,6 +30,8 @@
 		</c:if>
 		<small class="d-block text-right mt-3">
 		  <a href="${pageContext.request.contextPath }/memo/goEditNote?id=${memo.id}">수정</a>
+		  <a> | </a>
+		  <a href="${pageContext.request.contextPath }/memo/del?id=${memo.id}">삭제</a>
 		</small>
 	</div>
 </main>

@@ -1,5 +1,6 @@
 package com.makao.memo.persistance;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -27,12 +28,29 @@ public class MemoDAOImpl implements MemoDAO {
 
 	@Override
 	public void updateMemo(Memo memo) {
+		memo.setModDate(new Date());
 		getSession().update(memo);
 	}
 
 	@Override
 	public void delMemo(Long memoId) {
-		Memo memo = (Memo) getSession().get(Memo.class, memoId);
+		Memo memo = readMemo(memoId);
+		memo.setDel(true);
+		memo.setModDate(new Date());
+		getSession().saveOrUpdate(memo);
+	}
+	
+	@Override
+	public void restoreMemo(Long memoId) {
+		Memo memo = readMemo(memoId);
+		memo.setDel(false);
+		memo.setModDate(new Date());
+		getSession().saveOrUpdate(memo);
+	}
+
+	@Override
+	public void removeMemo(Long memoId) {
+		Memo memo = readMemo(memoId);
 		getSession().delete(memo);
 	}
 
@@ -44,31 +62,31 @@ public class MemoDAOImpl implements MemoDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Memo> getAllMemo(Long userId) {
-		String jpql = "SELECT m.id, m.title, m.type, m.regDate, m.modDate FROM Memo m where regUserId = :userId order by modDate desc, id desc";
+		String jpql = "SELECT m.id, m.title, m.type, m.regDate, m.modDate FROM Memo m where regUserId = :userId AND m.del = :del order by modDate desc, id desc";
 		Query query = getSession().createQuery(jpql);
 		query.setParameter("userId", userId);
+		query.setParameter("del", false);
 		return query.list();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Memo> getCtgrMemo(Long userId, Long ctgrId) {
-		String jpql = "SELECT m.id, m.title, m.type, m.regDate, m.modDate FROM Memo m, MemoShare s where s.userId = :userId AND s.ctgrId = :ctgrId AND s.memo.id = m.id";
+		String jpql = "SELECT m.id, m.title, m.type, m.regDate, m.modDate FROM Memo m, MemoShare s where s.userId = :userId AND s.ctgrId = :ctgrId AND s.memo.id = m.id AND m.del = :del";
 		Query query = getSession().createQuery(jpql);
 		query.setParameter("userId", userId);
 		query.setParameter("ctgrId", ctgrId);
+		query.setParameter("del", false);
 		return query.list();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Memo> getPtlList(Long userId) {
-//		String jpql = "FROM Memo m, MemoShare s where s.userId = :userId AND s.memo.id = m.id";
-//		String jpql = "SELECT m.id, m.title, m.type, m.regDate, m.modDate, m.content FROM Memo m, MemoShare s where s.userId = :userId AND s.memo.id = m.id";
-		String jpql = "SELECT m FROM Memo m, MemoShare s where s.userId = :userId AND s.memo.id = m.id";
-//		String jpql = "FROM Memo m where m.regUserId = :userId";
+		String jpql = "SELECT m FROM Memo m, MemoShare s where s.userId = :userId AND s.memo.id = m.id AND m.del = :del";
 		Query query = getSession().createQuery(jpql);
 		query.setParameter("userId", userId);
+		query.setParameter("del", false);
 		query.setFirstResult(0);
 		query.setMaxResults(12);
 		return query.list();
