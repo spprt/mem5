@@ -4,6 +4,13 @@
 <head>
   <%@ include file="/WEB-INF/views/includes/00_head.jsp" %>
 </head>
+<script>
+$(function(){
+	selectCtgr('${ctgrId}', function () {
+		viewMemo('${memo.id}', true);
+	});
+});
+</script>
 <body>
 <main role="main" class="container">
 <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm" style="background: #005dc1;">
