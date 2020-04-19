@@ -47,4 +47,8 @@ public interface MemoService {
 	public void checkFavorite(Long memoId, Long userId, boolean checked);
 	
 	public List<Memo> getFavoriteMemo(Long userId);
+	
+	public void lockMemo(Memo memo, Long userId);
+	
+	public void unlockMemo(Memo memo);
 }

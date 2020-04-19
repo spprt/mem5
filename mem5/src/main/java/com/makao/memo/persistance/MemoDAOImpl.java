@@ -159,4 +159,17 @@ public class MemoDAOImpl implements MemoDAO {
 		query.setParameter("favorite", true);
 		return query.list();
 	}
+
+	@Override
+	public void lockMemo(Memo memo, Long userId) {
+		memo.setLock(true);
+		memo.setModUserId(userId);
+		getSession().update(memo);
+	}
+
+	@Override
+	public void unlockMemo(Memo memo) {
+		memo.setLock(false);
+		getSession().update(memo);
+	}
 }

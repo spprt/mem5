@@ -129,4 +129,14 @@ public class MemoServiceImpl implements MemoService {
 	public List<Memo> getFavoriteMemo(Long userId) {
 		return memoDAO.getFavoriteList(userId);
 	}
+
+	@Override
+	public void lockMemo(Memo memo, Long userId) {
+		memoDAO.lockMemo(memo, userId);
+	}
+
+	@Override
+	public void unlockMemo(Memo memo) {
+		memoDAO.unlockMemo(memo);
+	}
 }

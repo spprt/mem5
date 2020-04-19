@@ -39,4 +39,8 @@ public interface MemoDAO {
 	public void checkFavorite(Long memoId, Long userId, boolean checked);
 	
 	public List<Memo> getFavoriteList(Long userId);
+	
+	public void lockMemo(Memo memo, Long userId);
+	
+	public void unlockMemo(Memo memo);
 }

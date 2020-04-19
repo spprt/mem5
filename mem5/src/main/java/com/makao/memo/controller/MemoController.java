@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.makao.memo.entity.Memo;
 import com.makao.memo.entity.Memo.Tag;
+import com.makao.memo.permission.MemoPermission;
 import com.makao.memo.entity.MemoShare;
 import com.makao.memo.entity.MemoTodo;
 import com.makao.memo.entity.User;
@@ -193,25 +194,23 @@ public class MemoController {
 		Memo memo = service.readMemo(id);
 		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
 		ModelAndView mv = new ModelAndView();
-		if (null != authInfo && authInfo.getId() == memo.getRegUserId()) {
-			mv.addObject("memo", memo);
-			List<Tag> tags = memo.getTags();
-			String tagStr = tags.stream().map(t -> t.getTag()).collect(Collectors.joining(","));
-			mv.addObject("tagStr", tagStr);
+		MemoPermission.checkEdit(memo, session);
+		service.lockMemo(memo, authInfo.getId());
+		mv.addObject("memo", memo);
+		List<Tag> tags = memo.getTags();
+		String tagStr = tags.stream().map(t -> t.getTag()).collect(Collectors.joining(","));
+		mv.addObject("tagStr", tagStr);
 //			mv.setViewName("redirect:/?rightPage=/memo/editNote");
-			mv.setViewName("memo/editMemo");
-		} else {
-			mv.setViewName("redirect:/");
-		}
+		mv.setViewName("memo/editMemo");
 
 		return mv;
 	}
 
 	@RequestMapping(value = "/memo/saveEditMemo", method = RequestMethod.POST)
 	public ModelAndView editNote(@ModelAttribute Memo memo, HttpSession session) throws Exception {
-//		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
-		memo.setModDate(new Date());
+		MemoPermission.checkEdit(memo, session);
 		service.updateMemo(memo);
+		service.unlockMemo(memo);
 		ModelAndView mv = new ModelAndView("redirect:/");
 		return mv;
 	}
@@ -249,27 +248,24 @@ public class MemoController {
 
 	@RequestMapping(value = "/memo/del", method = RequestMethod.GET)
 	public String delete(Long id, HttpSession session) throws Exception {
-//		Memo memo = service.readMemo(id);
-//		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
-		// permission 체크 필요
+		Memo memo = service.readMemo(id);
+		MemoPermission.checkRegUser(memo, session);
 		service.delMemo(id);
 		return "redirect:/";
 	}
 
 	@RequestMapping(value = "/memo/restore", method = RequestMethod.GET)
 	public String restore(Long id, HttpSession session) throws Exception {
-//		Memo memo = service.readMemo(id);
-//		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
-		// permission 체크 필요
+		Memo memo = service.readMemo(id);
+		MemoPermission.checkRegUser(memo, session);
 		service.restoreMemo(id);
 		return "redirect:/";
 	}
 
 	@RequestMapping(value = "/memo/remove", method = RequestMethod.GET)
 	public String remove(Long id, HttpSession session) throws Exception {
-//		Memo memo = service.readMemo(id);
-//		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
-		// permission 체크 필요
+		Memo memo = service.readMemo(id);
+		MemoPermission.checkRegUser(memo, session);
 		service.removeMemo(id);
 		return "redirect:/";
 	}
@@ -287,6 +283,8 @@ public class MemoController {
 	public String copyMemo(Long id, HttpSession session) throws Exception {
 		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
 		Memo memo = service.readMemo(id);
+		MemoPermission.checkShared(memo, session);
+		
 		memo.setTitle("[사본]" + memo.getTitle());
 
 		List<MemoShare> shares = memo.getShares().stream()
@@ -323,6 +321,8 @@ public class MemoController {
 	public ModelAndView favorite(Long id, boolean check, HttpSession session) throws Exception {
 		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
 		Long userId = authInfo.getId();
+		Memo memo = service.readMemo(id);
+		MemoPermission.checkShared(memo, session);
 		service.checkFavorite(id, userId, check);
 		ModelAndView mv = new ModelAndView("redirect:/?rightPage=/memo/view?id=" + id);
 		//return "redirect:/?rightPage=/memo/view?id=" + id;
@@ -337,5 +337,14 @@ public class MemoController {
 		Map<String, Object> resMap = new HashMap<String, Object>();
 		resMap.put("array", list);
 		return resMap;
+	}
+	
+	@RequestMapping(value = "/memo/unlock", method = RequestMethod.GET)
+	public ModelAndView unlock(Long id, HttpSession session) throws Exception {
+		Memo memo = service.readMemo(id);
+		MemoPermission.checkRegUser(memo, session);
+		service.unlockMemo(memo);
+		ModelAndView mv = new ModelAndView("redirect:/?rightPage=/memo/view?id=" + id);
+		return mv;
 	}
 }

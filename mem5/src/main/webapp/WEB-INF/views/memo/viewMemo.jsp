@@ -51,10 +51,18 @@ $(function(){
       		</c:if>
 	      	<a> | </a>
 	      	<a href="${pageContext.request.contextPath }/memo/copy?id=${memo.id}">사본만들기</a>
+	      	<c:if test="${memo.lock == false || authInfo.id == memo.regUserId}">
 			<a> | </a>
 	      	<a href="#" onclick="editMemo(${memo.id});">수정</a>
+	      	</c:if>
+	      	<c:if test="${memo.lock && authInfo.id == memo.regUserId}">
+	      	<a> | </a>
+	      	<a href="${pageContext.request.contextPath }/memo/unlock?id=${memo.id}">잠김해제</a>
+	      	</c:if>
+	      	<c:if test="${authInfo.id == memo.regUserId}">
 	      	<a> | </a>
 	      	<a href="${pageContext.request.contextPath }/memo/del?id=${memo.id}">삭제</a>
+	      	</c:if>
 	      </c:if>
 		</small>
 	</div>

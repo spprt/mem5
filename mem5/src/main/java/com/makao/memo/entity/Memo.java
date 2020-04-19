@@ -68,6 +68,9 @@ public class Memo implements Serializable {
 
 	@Column(name = "type")
 	private int type;
+	
+	@Column(name="islock")
+	private boolean lock;
 
 	@OneToMany(mappedBy = "memo", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	private Set<MemoTodo> todos;
@@ -79,7 +82,7 @@ public class Memo implements Serializable {
 	@CollectionTable(name = "memo_tag", joinColumns = @JoinColumn(name = "memoid"))
 	@OrderColumn(name = "idx") // 지정한 컬럼에 리스트의 인덱스 값 저장
 	private List<Tag> tags;
-
+	
 	/**
 	 * 메모타입: 일반노트(1)
 	 */
@@ -159,6 +162,14 @@ public class Memo implements Serializable {
 
 	public void setType(int type) {
 		this.type = type;
+	}
+	
+	public boolean isLock() {
+		return lock;
+	}
+
+	public void setLock(boolean lock) {
+		this.lock = lock;
 	}
 
 	public Collection<MemoTodo> getTodos() {
