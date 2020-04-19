@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.makao.memo.entity.Category;
+import com.makao.memo.permission.CategoryPermission;
 import com.makao.memo.service.CategoryService;
 import com.makao.memo.util.AuthInfo;
 
@@ -78,7 +79,7 @@ public class CategoryController {
 	@RequestMapping(value = "/category/saveEdit", method = RequestMethod.POST)
 	public ModelAndView edit(Category ctgr, HttpSession session) throws Exception {
 		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
-
+		CategoryPermission.checkRegUser(ctgr, session);
 		ModelAndView mv = new ModelAndView();
 		if (ctgr.getUserId().equals(authInfo.getId())) {
 			service.updateCategory(ctgr);
@@ -101,6 +102,7 @@ public class CategoryController {
 
 		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
 		Category ctgr = (Category) service.getCategory(ctgrId);
+		CategoryPermission.checkRegUser(ctgr, session);
 		if (authInfo.getId() == ctgr.getUserId()) {
 			service.changeIdx(ctgrId, idx);
 			result.put("result", "success");
