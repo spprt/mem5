@@ -11,7 +11,7 @@ $(function(){
 	    e.preventDefault();
 	    $("#wrapper").toggleClass("toggled");
 	});
-	let rightPage = '${param.rightPage}';
+	rightPage = '${param.rightPage}';
 	
 	if (rightPage) {
 		loadRightArea(rightPage)
@@ -50,6 +50,7 @@ $(function(){
 		setSlimScroll();
 	});
 });
+let rightPage, oldRightPage;
 <%-- Category Selected Manage Start --%>
 var selectedCtgrId;
 function selectCtgr(ctgrId, callback) {

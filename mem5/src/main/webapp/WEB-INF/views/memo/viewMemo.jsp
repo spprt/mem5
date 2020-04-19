@@ -6,9 +6,12 @@
 </head>
 <script>
 $(function(){
-	selectCtgr('${ctgrId}', function () {
-		viewMemo('${memo.id}', true);
-	});
+	if (rightPage && rightPage != oldRightPage) {
+		oldRightPage = rightPage;
+		selectCtgr('${ctgrId}', function () {
+			viewMemo('${memo.id}', true);
+		});
+	}
 });
 </script>
 <body>
