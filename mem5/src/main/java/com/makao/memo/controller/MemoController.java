@@ -160,6 +160,7 @@ public class MemoController {
 	public ModelAndView viewMemo(Long id, HttpSession session) throws Exception {
 		Memo memo = service.readMemo(id);
 		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
+		MemoPermission.checkShared(memo, session);
 		String viewType = "memo/viewMemo";
 		if (memo.getType() == Memo.TYPE_TODO) {
 			viewType = "memo/viewTodo";
